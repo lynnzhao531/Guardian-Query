@@ -5,7 +5,7 @@
   "overall_credit_prepost": 4.866666666666667,
   "llm_count_prepost": 0,
   "is_full_prepost": false,
-  "overall_credit_case_study": 3.8666666666666663,
+  "overall_credit_case_study": 4.866666666666666,
   "llm_count_case_study": 0,
   "is_full_case_study": false,
   "overall_credit_expert_qual": 8.2,
@@ -14,7 +14,7 @@
   "overall_credit_expert_secondary": 10.2,
   "llm_count_expert_secondary": 0,
   "is_full_expert_secondary": false,
-  "overall_credit_gut": 6.0,
+  "overall_credit_gut": 9.0,
   "llm_count_gut": 0,
   "is_full_gut": false
 }

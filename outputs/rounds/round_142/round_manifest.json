@@ -1,0 +1,105 @@
+{
+  "round_id": 142,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T22:45:33.364406+00:00",
+  "finished_at": "2026-04-05T22:53:10.476671+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "case_study",
+  "base_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (launched OR implemented OR \"will introduce\" OR \"rolled out\" OR mandated OR expanded OR evaluation OR rollout OR approved OR introduced OR \"plans to\" OR scrapped) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "final_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (launched OR implemented OR \"will introduce\" OR \"rolled out\" OR mandated OR expanded OR evaluation OR rollout OR approved OR introduced OR \"plans to\" OR scrapped) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "query_width_k": 3,
+  "decision_width": 12,
+  "guardian_order_by": "relevance",
+  "total_available": 1404,
+  "candidates_retrieved": 454,
+  "candidates_filtered": 440,
+  "scored_count": 47,
+  "unique_scored": 159,
+  "duplicate_scored": 281,
+  "unique_rate": 0.3613636363636364,
+  "tier_a_count": 0,
+  "tier_b_count": 34,
+  "near_miss_count": 5,
+  "reward_R": 0.14890454545454546,
+  "reward_V": 0.94,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.235,
+  "budget_remaining": 42.959999999999994,
+  "files_written": [
+    "outputs/rounds/round_142/candidates_raw.csv",
+    "outputs/rounds/round_142/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 29,
+    "discovered_terms_count": {
+      "strong_total": 10,
+      "trial_total": 1,
+      "last_run_round": 140
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "stuck_detector_fired": true,
+  "stuck_detector_from": "case_study",
+  "stuck_detector_to": "rct",
+  "rct_override_fired": true,
+  "rct_override_to": "case_study",
+  "rct_override_credits": {
+    "prepost": 4.866666666666667,
+    "case_study": 4.866666666666666,
+    "expert_qual": 8.2,
+    "expert_secondary": 10.2,
+    "gut": 9.0
+  },
+  "query_type": "standard",
+  "pages_fetched": "20-29",
+  "max_pages": 29,
+  "m5_prefilter_input": 159,
+  "m5_prefilter_passed": 47,
+  "m5_prefilter_applied": true
+}

@@ -1,7 +1,8 @@
 {
   "strong": {
     "rct": [
-      "clinical trials"
+      "clinical trials",
+      "trials to treat"
     ],
     "prepost": [
       "study finds"
@@ -11,7 +12,9 @@
     ],
     "expert_qual": [
       "report finds",
-      "watchdog warns"
+      "watchdog warns",
+      "review finds",
+      "inquiry report"
     ],
     "expert_secondary": [
       "analysis shows",
@@ -25,15 +28,6 @@
     "case_study": [],
     "expert_qual": [
       {
-        "term": "review finds",
-        "trials_remaining": 1,
-        "tier_a_produced": 0,
-        "added_round": 85,
-        "haiku_category": "method_expert_qual",
-        "sonnet_rating": 8,
-        "guardian_hits": 450
-      },
-      {
         "term": "curriculum review",
         "trials_remaining": 3,
         "tier_a_produced": 0,
@@ -41,15 +35,6 @@
         "haiku_category": "method_expert_qual",
         "sonnet_rating": 5,
         "guardian_hits": 227
-      },
-      {
-        "term": "inquiry report",
-        "trials_remaining": 1,
-        "tier_a_produced": 0,
-        "added_round": 90,
-        "haiku_category": "method_expert_qual",
-        "sonnet_rating": 8,
-        "guardian_hits": 1449
       }
     ],
     "expert_secondary": [],
@@ -73,5 +58,5 @@
       "due to poor"
     ]
   },
-  "last_run_round": 135
+  "last_run_round": 140
 }

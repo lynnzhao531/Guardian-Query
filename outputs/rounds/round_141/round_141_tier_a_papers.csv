@@ -1,0 +1,5 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/environment/2014/jun/04/plan-fracking-firms-drill-homes-queens-speech,Government confirms plan to let fracking firms drill under homes,method_gut,"[""method_gut""]",0.7933884297520661,HIGH,0.3392921010219068,3,"[""m1"", ""m2new"", ""m6""]"
+https://www.theguardian.com/housing-network/2013/apr/05/direct-payment-pilots-live-discussion,Live discussion: direct payment demonstration pilots,method_case_study,"[""method_case_study""]",0.6314150883915502,HIGH,0.43834291873420794,3,"[""m1"", ""m4"", ""m6""]"
+https://www.theguardian.com/politics/2014/mar/31/george-osborne-reforms-economic-recovery,George Osborne hails reforms as key to economic recovery,method_gut,"[""method_gut""]",0.7058823529411764,HIGH,0.3095267602490874,3,"[""m1"", ""m2new"", ""m6""]"
+https://www.theguardian.com/environment/2013/jul/04/gassing-badgers-eradicate-tb-cattle,Gassing of badgers considered in plan to eradicate TB in cattle,method_gut,"[""method_gut""]",0.7470817120622568,HIGH,0.364123702037406,3,"[""m1"", ""m2new"", ""m6""]"

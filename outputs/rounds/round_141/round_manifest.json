@@ -1,0 +1,104 @@
+{
+  "round_id": 141,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T22:22:00.856145+00:00",
+  "finished_at": "2026-04-05T22:45:33.325642+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "expert_qual",
+  "base_query": "(\"expert panel\" OR \"independent review\" OR \"public consultation\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "final_query": "(\"expert panel\" OR \"independent review\" OR \"public consultation\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "query_width_k": 10,
+  "decision_width": 12,
+  "guardian_order_by": "relevance",
+  "total_available": 2083,
+  "candidates_retrieved": 500,
+  "candidates_filtered": 472,
+  "scored_count": 100,
+  "unique_scored": 260,
+  "duplicate_scored": 212,
+  "unique_rate": 0.5508474576271186,
+  "tier_a_count": 4,
+  "tier_b_count": 83,
+  "near_miss_count": 23,
+  "reward_R": 0.7752542372881356,
+  "reward_V": 1.0,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.5,
+  "budget_remaining": 43.19499999999999,
+  "files_written": [
+    "outputs/rounds/round_141/candidates_raw.csv",
+    "outputs/rounds/round_141/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 29,
+    "discovered_terms_count": {
+      "strong_total": 8,
+      "trial_total": 3,
+      "last_run_round": 140
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "stuck_detector_fired": true,
+  "stuck_detector_from": "case_study",
+  "stuck_detector_to": "expert_qual",
+  "query_type": "standard",
+  "pages_fetched": "23-32",
+  "max_pages": 42,
+  "m5_prefilter_input": 260,
+  "m5_prefilter_passed": 117,
+  "m5_prefilter_applied": true,
+  "trial_graduation": {
+    "graduated": [
+      "review finds",
+      "inquiry report"
+    ],
+    "dropped": [],
+    "updated": 2
+  }
+}
