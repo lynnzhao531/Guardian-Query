@@ -1,0 +1,105 @@
+{
+  "round_id": 147,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T22:58:54.448870+00:00",
+  "finished_at": "2026-04-05T23:08:28.368676+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "case_study",
+  "base_query": "(\"case study\" OR \"case studies\" OR \"pilot site\" OR \"lessons learned\" OR \"implementation story\" OR \"rollout experience\" OR \"one council\" OR \"one city\" OR \"pilot area\" OR \"local authority pilot\" OR \"budget case study\") AND (\"scale up\" OR expanded OR \"will introduce\" OR approved OR mandated OR \"decided to\" OR introduced OR trialled OR \"plans to\" OR rollout OR launched OR pilot) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "final_query": "(\"case study\" OR \"case studies\" OR \"pilot site\" OR \"lessons learned\" OR \"implementation story\" OR \"rollout experience\" OR \"one council\" OR \"one city\" OR \"pilot area\" OR \"local authority pilot\" OR \"budget case study\") AND (\"scale up\" OR expanded OR \"will introduce\" OR approved OR mandated OR \"decided to\" OR introduced OR trialled OR \"plans to\" OR rollout OR launched OR pilot) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "query_width_k": 10,
+  "decision_width": 12,
+  "guardian_order_by": "newest",
+  "total_available": 2452,
+  "candidates_retrieved": 500,
+  "candidates_filtered": 485,
+  "scored_count": 55,
+  "unique_scored": 148,
+  "duplicate_scored": 337,
+  "unique_rate": 0.30515463917525776,
+  "tier_a_count": 4,
+  "tier_b_count": 46,
+  "near_miss_count": 13,
+  "reward_R": 0.7015463917525774,
+  "reward_V": 1.0,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.275,
+  "budget_remaining": 42.545,
+  "files_written": [
+    "outputs/rounds/round_147/candidates_raw.csv",
+    "outputs/rounds/round_147/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 29,
+    "discovered_terms_count": {
+      "strong_total": 10,
+      "trial_total": 1,
+      "last_run_round": 145
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "exploration_floor_fired": true,
+  "exploration_floor_from": "case_study",
+  "exploration_floor_to": "rct",
+  "rct_override_fired": true,
+  "rct_override_to": "case_study",
+  "rct_override_credits": {
+    "prepost": 4.866666666666667,
+    "case_study": 4.866666666666666,
+    "expert_qual": 8.2,
+    "expert_secondary": 10.2,
+    "gut": 9.0
+  },
+  "query_type": "standard",
+  "pages_fetched": "27-36",
+  "max_pages": 50,
+  "m5_prefilter_input": 148,
+  "m5_prefilter_passed": 55,
+  "m5_prefilter_applied": true
+}

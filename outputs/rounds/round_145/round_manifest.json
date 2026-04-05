@@ -1,0 +1,108 @@
+{
+  "round_id": 145,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T22:58:15.180570+00:00",
+  "finished_at": "2026-04-05T22:58:41.304880+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "case_study",
+  "base_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (evaluation OR approved OR mandated OR expanded OR \"rolled out\" OR \"plans to\" OR \"scale up\" OR launched OR \"will introduce\" OR implemented OR introduced OR \"decided to\") AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "final_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (evaluation OR approved OR mandated OR expanded OR \"rolled out\" OR \"plans to\" OR \"scale up\" OR launched OR \"will introduce\" OR implemented OR introduced OR \"decided to\") AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR \"randomised control trial\" OR \"randomized control trial\" OR \"control group\" OR \"randomly assigned\" OR placebo OR \"clinical trials\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "query_width_k": 3,
+  "decision_width": 12,
+  "guardian_order_by": "relevance",
+  "total_available": 1563,
+  "candidates_retrieved": 500,
+  "candidates_filtered": 471,
+  "scored_count": 0,
+  "unique_scored": 2,
+  "duplicate_scored": 469,
+  "unique_rate": 0.004246284501061571,
+  "tier_a_count": 0,
+  "tier_b_count": 0,
+  "near_miss_count": 0,
+  "reward_R": -0.007436305732484077,
+  "reward_V": 0.0,
+  "goldmine_triggered": false,
+  "phase": "3",
+  "cost_this_round": 0.0,
+  "budget_remaining": 42.81999999999999,
+  "files_written": [
+    "outputs/rounds/round_145/candidates_raw.csv",
+    "outputs/rounds/round_145/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 29,
+    "discovered_terms_count": {
+      "strong_total": 10,
+      "trial_total": 1,
+      "last_run_round": 140
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "vocab_discovery": {
+    "round_id": 145,
+    "proposed": 40,
+    "accepted_strong": 0,
+    "accepted_trial": 0,
+    "rejected": 5,
+    "by_method": {}
+  },
+  "cross_method_mining": {
+    "round_id": 145,
+    "source": "cross_method_pools",
+    "by_source_method": {},
+    "added_trial": 0
+  },
+  "query_type": "standard",
+  "pages_fetched": "9-18",
+  "max_pages": 32,
+  "m5_prefilter_input": 2,
+  "m5_prefilter_passed": 2,
+  "m5_prefilter_applied": false,
+  "skip_reason": "insufficient_unique"
+}

@@ -95,3 +95,5 @@ https://www.theguardian.com/uk/2006/dec/12/science.health,Hundreds of babies sou
 https://www.theguardian.com/society/2004/mar/15/health.medicineandhealth,Needle in a headache,method_rct,"[""method_rct""]",0.4023763260920781,MEDIUM,1.0,133,consensus,0.492897084953321,5
 https://www.theguardian.com/politics/2003/jul/06/uk.society,Life-saving cancer trials face EU block,method_rct,"[""method_rct""]",0.22883843120795652,LOW,1.0,133,consensus,0.18841579895951957,3
 https://www.theguardian.com/uk/2001/mar/13/highereducation.education,Parkinson's miracle cure turns into a catastrophe,method_rct,"[""method_rct""]",0.4365066564476876,MEDIUM,1.0,133,consensus,0.28809411342655633,3
+https://www.theguardian.com/environment/2012/jan/19/badger-cull-pilot-areas-named,Badger cull pilot areas named,method_rct,"[""method_rct"", ""method_prepost""]",0.23131256178123935,LOW,0.5,147,consensus,0.3738443169720465,3
+https://www.theguardian.com/housing-network/2011/aug/09/supported-housing-personalised-care,Pilot reveals personalised support produces better results,method_rct,"[""method_rct""]",0.2711793783900478,LOW,1.0,147,consensus,0.5776897556530819,3
