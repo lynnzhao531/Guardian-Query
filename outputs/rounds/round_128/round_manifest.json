@@ -1,0 +1,93 @@
+{
+  "round_id": 128,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T20:22:02.182271+00:00",
+  "finished_at": "2026-04-05T20:52:32.511599+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "rct",
+  "base_query": "(\"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT OR \"control group\" OR \"randomly assigned\" OR \"field experiment\" OR \"clinical trial\" OR \"controlled study\" OR randomisation OR \"trial participants\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded OR \"scale up\" OR approved OR scrapped OR mandated OR \"decided to\" OR \"plans to\" OR \"will introduce\" OR evaluation) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "final_query": "(\"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT OR \"control group\" OR \"randomly assigned\" OR \"field experiment\" OR \"clinical trial\" OR \"controlled study\" OR randomisation OR \"trial participants\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded OR \"scale up\" OR approved OR scrapped OR mandated OR \"decided to\" OR \"plans to\" OR \"will introduce\" OR evaluation) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "query_width_k": 10,
+  "decision_width": 16,
+  "guardian_order_by": "relevance",
+  "total_available": 1046,
+  "candidates_retrieved": 500,
+  "candidates_filtered": 432,
+  "scored_count": 94,
+  "unique_scored": 94,
+  "duplicate_scored": 338,
+  "unique_rate": 0.2175925925925926,
+  "tier_a_count": 16,
+  "tier_b_count": 43,
+  "near_miss_count": 13,
+  "reward_R": 0.32615740740740734,
+  "reward_V": 1.0,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.47,
+  "budget_remaining": 45.605000000000004,
+  "files_written": [
+    "outputs/rounds/round_128/candidates_raw.csv",
+    "outputs/rounds/round_128/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 21,
+    "discovered_terms_count": {
+      "strong_total": 6,
+      "trial_total": 3,
+      "last_run_round": 125
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "stuck_detector_fired": true,
+  "stuck_detector_from": "case_study",
+  "stuck_detector_to": "rct",
+  "query_type": "standard",
+  "pages_fetched": "3-12",
+  "max_pages": 21
+}

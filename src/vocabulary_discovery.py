@@ -488,8 +488,12 @@ _GOLD_METHOD_CSVS = {
 }
 
 
-def _read_gold_titles(path: Path) -> List[str]:
-    """Read titles from a GOLD CSV, handling oversized fields."""
+def _read_gold_titles(path: Path, include_bodies: bool = True) -> List[str]:
+    """Read titles (and optional body snippets) from a GOLD CSV.
+
+    v3d Fix 6: also extract body text so ngram mining has more material than
+    just the headlines.
+    """
     import csv
     csv.field_size_limit(2**20)  # raise from default 131072 for long article bodies
     titles: List[str] = []
@@ -500,9 +504,114 @@ def _read_gold_titles(path: Path) -> List[str]:
                 t = (row.get("title") or "").strip()
                 if t:
                     titles.append(t)
+                if include_bodies:
+                    body = (row.get("body_text") or row.get("body") or "").strip()
+                    if body:
+                        # Split body into sentence-sized chunks (up to 500 chars, 3 chunks)
+                        snippet = body[:1500]
+                        for chunk in snippet.split(". ")[:3]:
+                            chunk = chunk.strip()
+                            if len(chunk) >= 20:
+                                titles.append(chunk)
     except Exception as e:
         logger.warning("gold_mine: failed reading %s: %s", path.name, e)
     return titles
+
+
+# ── Cross-method mining (v3d Fix 6) ─────────────────────────────────────────
+
+def mine_cross_method_pools(round_id: int = 0,
+                            starved_methods: Optional[List[str]] = None) -> dict:
+    """Look at FULL pools (e.g. pool_rct_overall.csv) for phrases whose Haiku
+    classification is a DIFFERENT (starved) method. Harvests cross-method
+    language that's hiding in the most abundant pool.
+    """
+    from query_builder import METHOD_TERMS
+    pools_dir = _PROJECT_ROOT / "outputs" / "pools"
+    state = load_state()
+
+    existing: set = set()
+    for m in METHODS:
+        for t in METHOD_TERMS.get(m, []):
+            existing.add(t.lower())
+        for t in state["strong"].get(m, []):
+            existing.add(t.lower())
+        for entry in state["trial"].get(m, []):
+            existing.add(entry["term"].lower())
+        for t in state["dropped"].get(m, []):
+            existing.add(t.lower())
+
+    starved = starved_methods or ["gut", "prepost", "case_study", "expert_qual", "expert_secondary"]
+    summary = {"round_id": round_id, "source": "cross_method_pools",
+               "by_source_method": {}, "added_trial": 0}
+
+    import csv
+    for src_method in ["rct", "expert_secondary"]:
+        pp = pools_dir / f"pool_{src_method}_overall.csv"
+        if not pp.exists():
+            continue
+        titles: List[str] = []
+        try:
+            with open(pp, newline="", encoding="utf-8") as fh:
+                for row in csv.DictReader(fh):
+                    t = (row.get("title") or "").strip()
+                    if t:
+                        titles.append(t)
+        except Exception as e:
+            logger.warning("cross_mine: failed reading %s: %s", pp.name, e)
+            continue
+        if len(titles) < 10:
+            continue
+
+        phrases = extract_candidate_phrases(titles, existing, min_count=2)[:15]
+        if not phrases:
+            continue
+        haiku_out = haiku_classify_batch(phrases)
+        # Only accept phrases Haiku maps to a *different*, starved method
+        forced = []
+        for p in phrases:
+            cat = haiku_out.get(p, "noise")
+            if not cat.startswith("method_"):
+                continue
+            m = cat.replace("method_", "")
+            if m in starved and m != src_method:
+                forced.append((p, cat))
+        if not forced:
+            continue
+        sonnet_out = sonnet_validate_batch(forced)
+        added = 0
+        for phrase, cat in forced:
+            rating, _ = sonnet_out.get(phrase, (0, cat))
+            if rating < 5:
+                continue
+            hits = _preflight_term(phrase)
+            if hits < 20 or hits > 5000:
+                continue
+            m = cat.replace("method_", "")
+            if len(state["trial"][m]) >= MAX_TRIAL_PER_METHOD:
+                continue
+            if any(e["term"] == phrase for e in state["trial"][m]):
+                continue
+            state["trial"][m].append({
+                "term": phrase,
+                "trials_remaining": MAX_TRIALS_PER_TERM,
+                "tier_a_produced": 0,
+                "added_round": int(round_id),
+                "haiku_category": cat,
+                "sonnet_rating": rating,
+                "guardian_hits": hits,
+                "source": f"cross_from_{src_method}",
+            })
+            existing.add(phrase.lower())
+            added += 1
+            logger.info("  CROSS-TRIAL %s: %s (rating=%d, hits=%d) [from %s]",
+                        m, phrase, rating, hits, src_method)
+        summary["by_source_method"][src_method] = added
+        summary["added_trial"] += added
+
+    if summary["added_trial"] > 0:
+        save_state(state)
+    return summary
 
 
 def mine_gold_csvs(round_id: int = 0,

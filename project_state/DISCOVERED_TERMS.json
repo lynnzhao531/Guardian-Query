@@ -1,9 +1,16 @@
 {
   "strong": {
     "rct": [],
-    "prepost": [],
-    "case_study": [],
-    "expert_qual": [],
+    "prepost": [
+      "study finds"
+    ],
+    "case_study": [
+      "budget case study"
+    ],
+    "expert_qual": [
+      "report finds",
+      "watchdog warns"
+    ],
     "expert_secondary": [
       "analysis shows",
       "covid report"
@@ -12,28 +19,9 @@
   },
   "trial": {
     "rct": [],
-    "prepost": [
-      {
-        "term": "study finds",
-        "trials_remaining": 2,
-        "tier_a_produced": 0,
-        "added_round": 85,
-        "haiku_category": "method_prepost",
-        "sonnet_rating": 7,
-        "guardian_hits": 4311
-      }
-    ],
+    "prepost": [],
     "case_study": [],
     "expert_qual": [
-      {
-        "term": "report finds",
-        "trials_remaining": 2,
-        "tier_a_produced": 0,
-        "added_round": 85,
-        "haiku_category": "method_expert_qual",
-        "sonnet_rating": 8,
-        "guardian_hits": 3374
-      },
       {
         "term": "review finds",
         "trials_remaining": 1,
@@ -83,5 +71,5 @@
       "due to poor"
     ]
   },
-  "last_run_round": 115
+  "last_run_round": 130
 }

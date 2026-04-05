@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/society/2015/jun/01/paradigm-shift-hailed-in-treatment-of-lung-cancer,Cancer trial of drug combination yields 'spectacular' results,method_rct,"[""method_rct""]",0.29344185088127783,LOW,0.3838316391139741,4,"[""m1"", ""m2old"", ""m5"", ""m6""]"

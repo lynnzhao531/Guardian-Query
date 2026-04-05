@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/global-development/2011/sep/27/gavi-announces-vaccine-funding-campaign,Gavi steps up child vaccine funding programme,method_rct,"[""method_rct""]",0.4358694406801577,MEDIUM,0.29248554279600325,3,"[""m2old"", ""m2new"", ""m5""]"

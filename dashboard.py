@@ -580,8 +580,15 @@ def page_about():
                 "Rotation bug locked all rounds on RCT.\n"
                 "- **v3-fixed (rounds 44-81).** All 6 models, static NOT clause, stuck "
                 "detector. 29 Tier A, 411 Tier B. Bandit over-exploited case_study.\n"
-                "- **v3b (rounds 82+).** Vocabulary discovery, smarter stuck detector, "
-                "bandit tuned."
+                "- **v3b (rounds 82-110).** Vocabulary discovery, smarter stuck detector, "
+                "bandit tuned.\n"
+                "- **v3c (rounds 111-130).** Pagination with random offset, GOLD CSV "
+                "mining, decision-only queries, skip-when-unique<5. 62 Tier A in 20 "
+                "rounds but RCT pool filled 2.4× over; other methods still starved.\n"
+                "- **v3d (rounds 131+).** Starved-method focus: RCT phrases moved to "
+                "GLOBAL_EXCLUDE, bandit RCT override, M5 zero-cost pre-filter, "
+                "compound title relevance, near-miss reward, cross-method pool mining, "
+                "40% trial rate for starved methods."
             )
 
         with st.expander("Model health"):

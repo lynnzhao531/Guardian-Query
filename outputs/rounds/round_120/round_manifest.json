@@ -1,0 +1,114 @@
+{
+  "round_id": 120,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T18:42:36.911833+00:00",
+  "finished_at": "2026-04-05T18:59:21.663602+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "expert_qual",
+  "base_query": "(\"expert panel\" OR \"independent review\" OR \"public consultation\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "final_query": "(\"expert panel\" OR \"independent review\" OR \"public consultation\") AND (pilot OR \"rolled out\" OR rollout OR implemented OR introduced OR trialled OR launched OR expanded) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\" OR \"randomised controlled trial\" OR \"randomized controlled trial\" OR RCT)",
+  "query_width_k": 10,
+  "decision_width": 12,
+  "guardian_order_by": "newest",
+  "total_available": 2090,
+  "candidates_retrieved": 500,
+  "candidates_filtered": 494,
+  "scored_count": 100,
+  "unique_scored": 488,
+  "duplicate_scored": 6,
+  "unique_rate": 0.9878542510121457,
+  "tier_a_count": 1,
+  "tier_b_count": 77,
+  "near_miss_count": 24,
+  "reward_R": 0.435748987854251,
+  "reward_V": 1.0,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.5,
+  "budget_remaining": 48.075,
+  "files_written": [
+    "outputs/rounds/round_120/candidates_raw.csv",
+    "outputs/rounds/round_120/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 21,
+    "discovered_terms_count": {
+      "strong_total": 2,
+      "trial_total": 5,
+      "last_run_round": 115
+    },
+    "bandit_rho": 0.92,
+    "feature_dim": 12
+  },
+  "exploration_floor_fired": true,
+  "exploration_floor_from": "case_study",
+  "exploration_floor_to": "expert_qual",
+  "vocab_discovery": {
+    "round_id": 120,
+    "proposed": 40,
+    "accepted_strong": 0,
+    "accepted_trial": 1,
+    "rejected": 6,
+    "by_method": {
+      "expert_qual": {
+        "strong": 0,
+        "trial": 1
+      }
+    }
+  },
+  "query_type": "standard",
+  "pages_fetched": "29-38",
+  "max_pages": 42,
+  "trial_graduation": {
+    "graduated": [
+      "report finds",
+      "watchdog warns"
+    ],
+    "dropped": [],
+    "updated": 2
+  }
+}

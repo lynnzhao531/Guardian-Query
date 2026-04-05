@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/society/2021/sep/11/covid-jabs-for-12--to-15-year-olds-set-to-start-in-weeks,Covid jabs for 12- to 15-year-olds ‘set to start in weeks’ across UK,method_rct,"[""method_rct""]",0.32888079446375645,MEDIUM,0.38248920419914284,3,"[""m2old"", ""m2new"", ""m5""]"

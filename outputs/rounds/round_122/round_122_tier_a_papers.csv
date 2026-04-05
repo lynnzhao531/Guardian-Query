@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/uk-news/2017/jun/22/prevent-andy-burnham-greater-manchester-muslim-communities,Andy Burnham pledges to replace Prevent strategy in Manchester,method_gut,"[""method_gut""]",0.7368421052631579,HIGH,0.3754188063297854,3,"[""m1"", ""m2new"", ""m6""]"

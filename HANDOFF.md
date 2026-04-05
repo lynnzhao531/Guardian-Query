@@ -1,5 +1,35 @@
 # Experiment Aversion Finder - K* Synthesis Results
 
+## Latest: v3d STARVED-METHOD FOCUS (rounds 134-153, launching 2026-04-05)
+
+v3c delivered 62 Tier A in 20 rounds but RCT filled 2.7× (93.9/35) while
+other methods remained at 3.9-10.2/35. Root cause: precision not supply —
+non-RCT methods have noisy vocabulary and the pipeline kept re-scoring
+RCT winners. 7 fixes applied:
+
+1. **RCT phrases → GLOBAL_EXCLUDE** (8 new terms in query_builder.py)
+2. **Bandit RCT override** — redirects any `target == "rct"` to the
+   lowest-credit starved method (round_runner.py)
+3. **M5 zero-cost pre-filter** — DistilBERT screens articles at
+   `decision_p1 ≥ 0.15` before the expensive ensemble, non-RCT only
+4. **Compound intelligent sampling** — title relevance = 2× method
+   keywords + 1× 30-term DECISION_INDICATORS list
+5. **Near-miss reward** — bandit reward adds 0.10 × near_miss_rate
+   (models_agreeing_high == threshold-1); rebalanced tier_b 0.15→0.10,
+   unique 0.20→0.15
+6. **GOLD body mining + cross-method mining** — `_read_gold_titles`
+   now includes body sentences; new `mine_cross_method_pools()`
+   harvests starved-method language hiding in full pools
+7. **40% trial rate for starved methods** (progress < 0.30) in
+   query_builder.generate_candidates
+
+Backups: `src/*_v3d_backup.py` for all 5 touched files. See
+`reports/overnight_v3d_summary.md` for detail. Invariants preserved:
+6 models, Tier A ≥3, per-model thresholds, static NOT, manifests,
+auto-push every 5 rounds.
+
+## Previous: v3c
+
 ## What This Project Does
 
 Scores Guardian newspaper articles for relevance to "experiment aversion" research: does the article describe an organization testing/comparing policy options using some method and making a decision based on results?

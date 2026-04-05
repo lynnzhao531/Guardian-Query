@@ -155,6 +155,9 @@ class Bandit:
         unique_rate = round_results.get("unique_rate", 0.0)
         dup_rate = round_results.get("duplicate_rate", 0.0)
         goldmine = 1.0 if round_results.get("goldmine_triggered", False) else 0.0
+        # v3d Fix 5: near-miss reward — reward "almost Tier A" (2 models agreeing).
+        near_miss = round_results.get("near_miss_count", 0)
+        near_miss_rate = min(near_miss, 10) / 10.0
 
         # Method-weighted credit: Σ w_m · U_m
         method_credit = 0.0
@@ -169,15 +172,16 @@ class Bandit:
         V = max(0.05, min(1.0, unique_scored / 50.0))  # Fix 9: floor so exploration isn't killed by V=0
         R = V * (
             0.20 * min(tier_a, 5) / 5.0
-            + 0.15 * min(tier_b, 20) / 20.0
+            + 0.10 * min(tier_b, 20) / 20.0
             + 0.35 * min(method_credit, 1.0)
-            + 0.20 * unique_rate
+            + 0.15 * unique_rate
             - 0.15 * dup_rate
             + 0.05 * goldmine
+            + 0.10 * near_miss_rate  # v3d Fix 5
         )
 
-        logger.info("Reward: V=%.2f, tier_a=%d, tier_b=%d, unique=%.2f, dup=%.2f → R=%.4f",
-                    V, tier_a, tier_b, unique_rate, dup_rate, R)
+        logger.info("Reward: V=%.2f, tier_a=%d, tier_b=%d, nm=%d, unique=%.2f, dup=%.2f → R=%.4f",
+                    V, tier_a, tier_b, near_miss, unique_rate, dup_rate, R)
         return float(R)
 
     # ── Posterior update with decay ─────────────────────────────────────

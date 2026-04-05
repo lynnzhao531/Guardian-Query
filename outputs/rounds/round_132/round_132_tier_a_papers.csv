@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/society/joepublic/2010/dec/16/reducing-reoffending-ken-clarke-doesnt-cost-the-earth,Reducing reoffending need not cost the earth,method_rct,"[""method_rct""]",0.298927327181532,LOW,0.5354672188391955,3,"[""m2old"", ""m2new"", ""m5""]"

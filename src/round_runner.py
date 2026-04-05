@@ -267,9 +267,22 @@ def _intelligent_sample(articles: List[dict], max_n: int = 100,
     }
     kws = method_kw.get(target_method, method_kw["rct"])
 
+    # v3d Fix 4: compound title relevance — method kw + decision indicators.
+    DECISION_INDICATORS = [
+        "policy", "scheme", "launch", "rollout", "pilot", "trial",
+        "programme", "program", "reform", "initiative", "strategy",
+        "plan", "announce", "introduce", "implement", "expand",
+        "review", "report", "evaluation", "assess", "find", "show",
+        "effective", "works", "fails", "failed", "success", "cut",
+        "fund", "invest", "government", "minister", "council",
+    ]
+
     for a in articles:
         title_lower = a.get("title", "").lower()
-        a["_title_score"] = sum(1 for kw in kws if kw in title_lower)
+        method_hits = sum(1 for kw in kws if kw in title_lower)
+        decision_hits = sum(1 for kw in DECISION_INDICATORS if kw in title_lower)
+        # Method terms weighted 2x (precision); decision terms weighted 1x.
+        a["_title_score"] = 2 * method_hits + decision_hits
         # Uncertainty proxy: body length (medium articles = more uncertain)
         body_len = len(a.get("body_text", ""))
         a["_uncertainty"] = 1.0 - abs(body_len - 5000) / 10000.0
@@ -578,6 +591,24 @@ def run_round(round_id: int, *, dry_run: bool = False) -> dict:
             except Exception as _e:
                 logger.warning("stuck detector / exploration floor error (non-fatal): %s", _e)
 
+        # v3d Fix 2: RCT override. RCT pool is ~2.7x FULL (93.9/35 at round 133).
+        # Redirect any selection of rct to the lowest-credit starved method.
+        try:
+            if target == "rct":
+                _starved = [m for m in METHODS if m != "rct"]
+                _credits = {m: float(ps.get(f"overall_credit_{m}", 0) or 0)
+                            for m in _starved}
+                _pick = min(_credits, key=_credits.get)
+                logger.warning("RCT OVERRIDE: redirected to %s (credits=%.1f, pool FULL)",
+                               _pick, _credits[_pick])
+                manifest["rct_override_fired"] = True
+                manifest["rct_override_to"] = _pick
+                manifest["rct_override_credits"] = _credits
+                target = _pick
+                pers["current_method"] = _pick
+        except Exception as _e:
+            logger.warning("RCT override error (non-fatal): %s", _e)
+
         S["target_method"] = target
         S["persistence_round"] = pers.get("round_count", 0)
         manifest["target_method"] = target
@@ -622,6 +653,12 @@ def run_round(round_id: int, *, dry_run: bool = False) -> dict:
                 logger.info("vocab_discovery: running at round %d", round_id)
                 _disco_summary = _vd.run_discovery(int(round_id), METHOD_TERMS)
                 manifest["vocab_discovery"] = _disco_summary
+                # v3d Fix 6: cross-method mining from full pools
+                try:
+                    _cross_summary = _vd.mine_cross_method_pools(int(round_id))
+                    manifest["cross_method_mining"] = _cross_summary
+                except Exception as _ce:
+                    logger.warning("cross_method_mining failed (non-fatal): %s", _ce)
         except Exception as _e:
             logger.warning("vocab_discovery run failed (non-fatal): %s", _e)
 
@@ -736,6 +773,45 @@ def run_round(round_id: int, *, dry_run: bool = False) -> dict:
         manifest["unique_scored"] = len(unique_articles)
         manifest["duplicate_scored"] = dup_count
         manifest["unique_rate"] = float(unique_rate)
+
+        # v3d Fix 3: M5 pre-filter. Use zero-cost DistilBERT as pre-screen
+        # for non-RCT methods only. Articles with decision p1 < 0.15 are
+        # dropped before the expensive full-ensemble scoring. Keeps ~10-20%
+        # of candidates, shrinking 500→~50-100 full-scores per round.
+        manifest["m5_prefilter_input"] = len(unique_articles)
+        manifest["m5_prefilter_passed"] = len(unique_articles)
+        manifest["m5_prefilter_applied"] = False
+        if (not dry_run) and m5 is not None and target != "rct" and len(unique_articles) >= 20:
+            try:
+                _kept = []
+                _p1s = []
+                for _a in unique_articles:
+                    try:
+                        _t = _a.get("title") or ""
+                        _b = (_a.get("body_text") or "")[:2000]
+                        _r = m5.score_article(_t, _b)
+                        _p1 = float(_r.get("decision", {}).get("p1", 0.0))
+                        _p1s.append(_p1)
+                        if _p1 >= 0.15:
+                            _kept.append(_a)
+                    except Exception:
+                        # Never drop on M5 error — keep the article.
+                        _kept.append(_a)
+                # Safety: if M5 rejects everything, fall back to top-N by p1.
+                if len(_kept) < 10 and len(unique_articles) >= 10:
+                    _ranked = sorted(
+                        zip(_p1s, unique_articles),
+                        key=lambda x: x[0], reverse=True,
+                    )
+                    _kept = [a for _, a in _ranked[:max(20, len(_kept))]]
+                manifest["m5_prefilter_input"] = len(unique_articles)
+                manifest["m5_prefilter_passed"] = len(_kept)
+                manifest["m5_prefilter_applied"] = True
+                logger.info("M5 pre-filter: %d → %d (target=%s)",
+                            len(unique_articles), len(_kept), target)
+                unique_articles = _kept
+            except Exception as _e:
+                logger.warning("M5 pre-filter error (non-fatal): %s", _e)
 
         # I) §7 Intelligent sampling
         manifest["failure_stage"] = "sample"
@@ -956,6 +1032,7 @@ def run_round(round_id: int, *, dry_run: bool = False) -> dict:
             "unique_scored": len(scored_set),
             "tier_a_count": len(tier_a_hits),
             "tier_b_count": len(tier_b_only),
+            "near_miss_count": len(near_misses),  # v3d Fix 5
             "unique_rate": unique_rate,
             "duplicate_rate": dup_rate,
             "goldmine_triggered": goldmine,

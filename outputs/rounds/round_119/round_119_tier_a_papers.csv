@@ -1,0 +1,3 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/society/2012/apr/05/cigarette-tobacco-displays-banned-supermarkets,Cigarette and tobacco displays banned in supermarkets,method_gut,"[""method_gut""]",0.7093023255813953,HIGH,0.29546389517910127,3,"[""m1"", ""m2new"", ""m6""]"
+https://www.theguardian.com/society/2011/nov/17/nhs-waiting-list-rise-uturn,NHS waiting list rise prompts government U-turn,method_gut,"[""method_gut""]",0.6946564885496184,HIGH,0.28879145370141895,3,"[""m1"", ""m2new"", ""m6""]"

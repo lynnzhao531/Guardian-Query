@@ -88,6 +88,19 @@ GLOBAL_EXCLUDE = [
     "goal", "coach", "match",
     # Culture noise
     "album", "film", "theatre", "premiere", "box office",
+    # v3d Fix 1: RCT-specific phrases. RCT pool is 2.4x FULL at round 133;
+    # excluding these unconditionally lets weaker method signals (prepost,
+    # case_study, gut, expert_qual, expert_secondary) surface on articles
+    # that previously got classified as RCT. Multi-word phrases only so
+    # we don't clobber non-RCT context for "trial" / "controlled" alone.
+    "randomised controlled trial",
+    "randomized controlled trial",
+    "randomised control trial",
+    "randomized control trial",
+    "control group",
+    "randomly assigned",
+    "placebo",
+    "clinical trials",
 ]
 
 METHOD_SPECIFIC_EXCLUDE: Dict[str, List[str]] = {
@@ -337,8 +350,11 @@ def generate_candidates(
         m_base = METHOD_TERMS.get(target_method, [])[:width_k]
 
         # Mix in discovered terms occasionally; trial terms used at 20%
+        # v3d Fix 7: boost trial rate to 40% for starved methods (progress < 0.30 ≈ pool < 10/35).
+        _target_prog_f7 = float(progress.get(target_method, 0.0) or 0.0)
+        _trial_prob = 0.40 if _target_prog_f7 < 0.30 else 0.20
         trial_used: List[str] = []
-        if extra_trial_terms and random.random() < 0.20:
+        if extra_trial_terms and random.random() < _trial_prob:
             trial_used = random.sample(extra_trial_terms, min(2, len(extra_trial_terms)))
             m_terms_used = m_base + trial_used
         elif extra_m_terms and random.random() < 0.3:
