@@ -1,0 +1,15 @@
+{
+  "current_threshold": 3,
+  "history": [
+    {
+      "round": 33,
+      "threshold": 2,
+      "reason": "Layer 6 ensemble eval: 6 models, >=2-agree = 91%/2% FP"
+    },
+    {
+      "round": 33,
+      "threshold": 3,
+      "reason": "Fix 2 v3 6-model config: genuine majority (>=3/6)"
+    }
+  ]
+}

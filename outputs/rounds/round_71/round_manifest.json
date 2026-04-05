@@ -1,0 +1,80 @@
+{
+  "round_id": 71,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T06:31:22.726708+00:00",
+  "finished_at": "2026-04-05T06:31:41.971500+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "case_study",
+  "base_query": "(\"case study\" OR \"case studies\" OR \"pilot site\" OR \"lessons learned\" OR \"implementation story\" OR \"rollout experience\" OR \"one council\" OR \"one city\" OR \"pilot area\" OR \"local authority pilot\") AND (mandated OR implemented OR pilot OR expanded OR evaluation OR launched OR \"decided to\" OR scrapped OR \"scale up\" OR \"will introduce\" OR \"rolled out\" OR rollout) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "final_query": "(\"case study\" OR \"case studies\" OR \"pilot site\" OR \"lessons learned\" OR \"implementation story\" OR \"rollout experience\" OR \"one council\" OR \"one city\" OR \"pilot area\" OR \"local authority pilot\") AND (mandated OR implemented OR pilot OR expanded OR evaluation OR launched OR \"decided to\" OR scrapped OR \"scale up\" OR \"will introduce\" OR \"rolled out\" OR rollout) AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "query_width_k": 10,
+  "decision_width": 12,
+  "guardian_order_by": "relevance",
+  "total_available": 2003,
+  "candidates_retrieved": 250,
+  "candidates_filtered": 230,
+  "scored_count": 1,
+  "unique_scored": 1,
+  "duplicate_scored": 229,
+  "unique_rate": 0.004347826086956522,
+  "tier_a_count": 0,
+  "tier_b_count": 1,
+  "near_miss_count": 0,
+  "reward_R": -0.004548913043478261,
+  "reward_V": 0.02,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.005,
+  "budget_remaining": 53.47,
+  "files_written": [
+    "outputs/rounds/round_71/candidates_raw.csv",
+    "outputs/rounds/round_71/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 21
+  }
+}

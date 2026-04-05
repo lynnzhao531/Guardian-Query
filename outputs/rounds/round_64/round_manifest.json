@@ -1,0 +1,80 @@
+{
+  "round_id": 64,
+  "pipeline_version": "v3",
+  "started_at": "2026-04-05T06:22:04.880395+00:00",
+  "finished_at": "2026-04-05T06:28:25.089463+00:00",
+  "status": "completed",
+  "failure_stage": null,
+  "failure_message": null,
+  "target_method": "case_study",
+  "base_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (rollout OR \"will introduce\" OR introduced OR implemented OR trialled OR \"rolled out\" OR expanded OR approved OR launched OR mandated OR \"scale up\" OR \"plans to\") AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "final_query": "(\"case study\" OR \"case studies\" OR \"pilot site\") AND (rollout OR \"will introduce\" OR introduced OR implemented OR trialled OR \"rolled out\" OR expanded OR approved OR launched OR mandated OR \"scale up\" OR \"plans to\") AND NOT (sentencing OR prosecution OR defendant OR verdict OR convicted OR charged OR magistrate OR \"crown court\" OR jury OR appeal OR tournament OR championship OR \"premier league\" OR goal OR coach OR match OR album OR film OR theatre OR premiere OR \"box office\")",
+  "query_width_k": 3,
+  "decision_width": 12,
+  "guardian_order_by": "newest",
+  "total_available": 1333,
+  "candidates_retrieved": 250,
+  "candidates_filtered": 234,
+  "scored_count": 12,
+  "unique_scored": 12,
+  "duplicate_scored": 222,
+  "unique_rate": 0.05128205128205128,
+  "tier_a_count": 0,
+  "tier_b_count": 4,
+  "near_miss_count": 0,
+  "reward_R": -0.012492307692307691,
+  "reward_V": 0.24,
+  "goldmine_triggered": true,
+  "phase": "3",
+  "cost_this_round": 0.06,
+  "budget_remaining": 53.495000000000005,
+  "files_written": [
+    "outputs/rounds/round_64/candidates_raw.csv",
+    "outputs/rounds/round_64/scored_results_full.csv"
+  ],
+  "reconstructed": false,
+  "reconstructed_from": null,
+  "config_snapshot": {
+    "models_active": [
+      "m1",
+      "m2old",
+      "m3",
+      "m4",
+      "m2new",
+      "m5",
+      "m6"
+    ],
+    "thresholds": {
+      "m1": {
+        "decision": 0.25,
+        "method": 0.05
+      },
+      "m2old": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m2new": {
+        "decision": 0.25,
+        "method": 0.25
+      },
+      "m3": {
+        "decision": 0.7,
+        "method": 0.05
+      },
+      "m4": {
+        "decision": 0.5,
+        "method": 0.05
+      },
+      "m5": {
+        "decision": 0.3,
+        "method": 0.3
+      },
+      "m6": {
+        "decision": 0.25,
+        "method": 0.05
+      }
+    },
+    "tier_a_min_agree": 3,
+    "global_exclude_terms": 21
+  }
+}

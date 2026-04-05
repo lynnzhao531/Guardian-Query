@@ -1,0 +1,4 @@
+url,title,classified_method,tied_methods,confidence,credit,round_id,source
+https://www.theguardian.com/world/2020/dec/25/uk-scientists-trial-drug-to-prevent-coronavirus-infection-leading-to-disease,UK scientists trial drug to prevent infection that leads to Covid,method_rct,"[""method_rct"", ""method_prepost"", ""method_case_study""]",0.2150849287575874,LOW,0.3333333333333333,84,consensus,0.30681196919228104,3
+https://www.theguardian.com/teacher-network/teacher-blog/2013/jun/21/education-research-maths-pshe-summer-schools,"Feedback in maths, improving PSHE and summer schools",method_rct,"[""method_rct"", ""method_prepost"", ""method_case_study""]",0.20175571658036803,LOW,0.3333333333333333,91,consensus,0.45983207066895465,3
+https://www.theguardian.com/society/2009/sep/30/public-services-birmingham,Case study: Better services at less cost for Birmingham,method_case_study,"[""method_case_study""]",0.7408432418321753,HIGH,1.0,114,consensus,0.47680667467234444,3

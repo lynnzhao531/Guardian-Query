@@ -1,0 +1,87 @@
+{
+  "strong": {
+    "rct": [],
+    "prepost": [],
+    "case_study": [],
+    "expert_qual": [],
+    "expert_secondary": [
+      "analysis shows",
+      "covid report"
+    ],
+    "gut": []
+  },
+  "trial": {
+    "rct": [],
+    "prepost": [
+      {
+        "term": "study finds",
+        "trials_remaining": 2,
+        "tier_a_produced": 0,
+        "added_round": 85,
+        "haiku_category": "method_prepost",
+        "sonnet_rating": 7,
+        "guardian_hits": 4311
+      }
+    ],
+    "case_study": [],
+    "expert_qual": [
+      {
+        "term": "report finds",
+        "trials_remaining": 2,
+        "tier_a_produced": 0,
+        "added_round": 85,
+        "haiku_category": "method_expert_qual",
+        "sonnet_rating": 8,
+        "guardian_hits": 3374
+      },
+      {
+        "term": "review finds",
+        "trials_remaining": 1,
+        "tier_a_produced": 0,
+        "added_round": 85,
+        "haiku_category": "method_expert_qual",
+        "sonnet_rating": 8,
+        "guardian_hits": 450
+      },
+      {
+        "term": "curriculum review",
+        "trials_remaining": 3,
+        "tier_a_produced": 0,
+        "added_round": 85,
+        "haiku_category": "method_expert_qual",
+        "sonnet_rating": 5,
+        "guardian_hits": 227
+      },
+      {
+        "term": "inquiry report",
+        "trials_remaining": 1,
+        "tier_a_produced": 0,
+        "added_round": 90,
+        "haiku_category": "method_expert_qual",
+        "sonnet_rating": 8,
+        "guardian_hits": 1449
+      }
+    ],
+    "expert_secondary": [],
+    "gut": []
+  },
+  "dropped": {
+    "rct": [],
+    "prepost": [
+      "records after"
+    ],
+    "case_study": [],
+    "expert_qual": [
+      "court hears"
+    ],
+    "expert_secondary": [
+      "test data",
+      "open data"
+    ],
+    "gut": [
+      "fatally flawed",
+      "due to poor"
+    ]
+  },
+  "last_run_round": 115
+}

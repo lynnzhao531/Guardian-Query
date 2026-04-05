@@ -1,0 +1,34 @@
+{
+  "version": 3,
+  "hypotheses": [
+    "HIGH articles treat the study design itself as newsworthy and credibility-conferring, explicitly signalling peer review or journal publication as legitimising the findings",
+    "HIGH articles explicitly name the evaluative body (citizens' jury, royal commission, expert panel, independent review, public inquiry, ombudsman) while LOW articles either lack such a body entirely or mention institutions only incidentally.",
+    "HIGH articles involve **a mismatch between the evidence a government cites and what researchers say that evidence actually shows**, creating a structure where the evaluation story is about contested interpretation of data rather than contested values.",
+    "HIGH articles show decision-makers deflecting accountability for poor outcomes onto other parties or external factors, which is a structural marker of post-hoc rationalization rather than evidence-based planning (e.g., Morrison blaming banks for jobkeeper flaws)",
+    "Strong gut decision articles explicitly name an organization that made a choice, framing the decision as an institutional act rather than a trend or background condition",
+    "HIGH articles often describe a policy decision where the reasoning or justification given is visibly inadequate, circular, or detached from formal evidence (e.g., jobkeeper paid in arrears despite obvious cash flow problems, corporal punishment reinstated based only on a parent survey)",
+    "HIGH articles contain **explicit counterfactual reasoning** \u2014 asserting what would or would not have happened under different policy conditions, used to assess whether the policy itself caused observed outcomes.",
+    "HIGH articles use **secondary or published data as the evidentiary foundation**, citing surveys, hospital admission records, or existing datasets rather than new experiments (e.g., Gambling Survey for Great Britain, hospital admissions data, IRA legislative text analysis).",
+    "HIGH articles often cite industry bodies, professional associations, or technical experts who were not consulted or whose advice was sidelined, making the absence of formal evidence-gathering structurally visible",
+    "HIGH articles feature **quantitative benchmarking against expected or baseline outcomes**, where specific numbers (percentages, counts, ratios) are used to measure whether a policy achieved its stated goals (e.g., \"eight times higher than thought,\" \"14% rise in three years,\" \"1.3 million problem gamblers\").",
+    "Evidence or reasoning is conspicuously absent or thin relative to the scale of the decision \u2014 the article notes what was decided without documenting a formal analytical process that preceded it"
+  ],
+  "accuracy": 0.6666666666666666,
+  "high_accuracy": 0.3333333333333333,
+  "low_accuracy": 1.0,
+  "per_method": {
+    "RCT": 0.7777777777777778,
+    "PrePost": 1.0,
+    "CaseStudy": 0.625,
+    "Expert_Qual": 0.6666666666666666,
+    "Expert_Secondary": 0.5,
+    "Gut": 0.25
+  },
+  "note": "Best of 3 retries. Did not pass quality gate.",
+  "api_calls": {
+    "count": 14675,
+    "input_tokens": 14312443,
+    "output_tokens": 61015
+  },
+  "estimated_cost_usd": 43.852554
+}

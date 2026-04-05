@@ -1,0 +1,37 @@
+# API keys — NEVER push
+.env
+*.env
+
+# Large model files — not needed for dashboard
+models/
+models_backup_*/
+
+# Raw research data — keep private
+# (only push the dashboard-facing outputs)
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Backups
+*_backup.py
+*_backup/
+src_backup_*/
+
+# Large state files not needed for dashboard
+project_state/SEEN_URLS.json
+project_state/BANDIT_STATE.json
+project_state/BANDIT_STATE_*.json
+
+# Overnight logs
+overnight_run*.log
+/tmp/
+
+# OS files
+.DS_Store
+Thumbs.db

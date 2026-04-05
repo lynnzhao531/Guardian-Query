@@ -1,0 +1,3 @@
+url,title,classified_method,tied_methods,confidence,credit,round_id,source
+https://www.theguardian.com/world/2022/jan/18/cabinet-expected-to-approve-relaxation-of-plan-b-covid-restrictions-in-england,Cabinet expected to approve relaxation of plan B Covid restrictions in England,method_gut,"[""method_gut""]",0.7368421052631579,HIGH,1,63,consensus,0.33598154997249846,3
+https://www.theguardian.com/environment/2018/apr/03/national-parks-entrance-fees-plan,National parks to rethink plan to hike entrance fees after widespread anger,method_gut,"[""method_gut""]",0.7844827586206897,HIGH,1,77,consensus,0.2997722593630941,3

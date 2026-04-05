@@ -1,0 +1,17 @@
+{
+  "k_star_synthesis": {
+    "total_usd": 58.0,
+    "note": "K* v1 through v3 including retries"
+  },
+  "model_training": {
+    "anthropic_usd": 0.0,
+    "openai_usd": 0.0
+  },
+  "per_round_scoring": {
+    "budget_usd": 60.0,
+    "spent_usd": 0.0,
+    "remaining_usd": 60.0
+  },
+  "scoring_spend_usd": 10.239999999999998,
+  "last_updated": "2026-04-05T18:02:46.337644+00:00"
+}
