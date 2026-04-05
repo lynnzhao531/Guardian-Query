@@ -1,0 +1,2 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type,m1_decision_p1,m2old_decision_p1,m2new_decision_p1,m3_decision_p1,m4_decision_p1,m5_decision_p1,m6_decision_p1
+https://www.theguardian.com/uk-news/2013/nov/09/illegal-migrant-children-denied-access-education-housing,Illegal migrants' children denied access to education and housing - report,method_expert_qual,method_rct,LOW,0.21762984544121572,2,method_disagree,0.8,0.2,0.2,0.6605789249005054,0.3722912538417637,0.4852599799633026,0.15000000000000002

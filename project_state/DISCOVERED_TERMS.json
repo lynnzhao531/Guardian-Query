@@ -1,6 +1,8 @@
 {
   "strong": {
-    "rct": [],
+    "rct": [
+      "clinical trials"
+    ],
     "prepost": [
       "study finds"
     ],
@@ -71,5 +73,5 @@
       "due to poor"
     ]
   },
-  "last_run_round": 130
+  "last_run_round": 135
 }
