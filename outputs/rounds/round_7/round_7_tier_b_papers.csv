@@ -1,0 +1,7 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type
+https://www.theguardian.com/science/2025/nov/22/two-uk-clinical-trials-to-assess-impact-of-puberty-blockers-in-young-people,Two UK clinical trials to assess impact of puberty blockers in young people,method_rct,method_expert_qual,LOW,0.17050000000000004,1,outlier_high
+https://www.theguardian.com/society/article/2024/jul/30/new-online-therapies-could-help-at-least-twice-number-of-people-recover-from-anxiety,New online therapies could help at least twice number of people recover from anxiety,method_expert_secondary,method_rct,LOW,0.26650000000000007,2,method_disagree
+https://www.theguardian.com/australia-news/2023/aug/29/labor-australian-centre-for-evaluation,Labor launches new body to evaluate public programs using randomised trials,method_rct,method_expert_qual,LOW,0.19300000000000003,1,outlier_high
+https://www.theguardian.com/commentisfree/2016/nov/15/sore-throats-pharmacies-nhs,Testing sore throats at pharmacies won’t solve anything,method_gut,,LOW,0.16900000000000004,1,outlier_high
+https://www.theguardian.com/media/2002/mar/08/newmedia.society,A healthy challenge to the media,method_rct,,LOW,0.14500000000000005,1,outlier_high
+https://www.theguardian.com/society/2001/jun/06/disability.guardiansocietysupplement,Unwelcome control,method_rct,method_gut,LOW,0.15250000000000005,1,outlier_high

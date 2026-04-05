@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/world/2021/aug/03/hopes-uk-trial-will-allay-pregnant-womens-covid-vaccine-concerns,Hopes UK trial will allay pregnant women’s Covid vaccine concerns,method_rct,"[""method_rct""]",0.40672622586749146,MEDIUM,0.46671284084314635,4,"[""m1"", ""m2old"", ""m5"", ""m6""]"

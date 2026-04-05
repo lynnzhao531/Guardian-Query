@@ -1,0 +1,2 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type,m1_decision_p1,m2old_decision_p1,m2new_decision_p1,m3_decision_p1,m4_decision_p1,m5_decision_p1,m6_decision_p1
+https://www.theguardian.com/commentisfree/2021/nov/24/home-office-compensate-windrush-victims-home-affairs-select-committee,The Home Office can’t be trusted to properly compensate Windrush victims,method_case_study,,MEDIUM,0.1691496891737431,2,near_tier_a,0.8,0.05,0.2,0.527260596485339,0.5191905439717458,0.07084948569536209,0.15000000000000002

@@ -1,0 +1,2 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/science/2021/sep/13/nhs-england-announces-large-scale-trial-of-potential-early-cancer-test,NHS England announces large-scale trial of potential early cancer test,method_rct,"[""method_rct""]",0.33143500947344284,MEDIUM,0.5267371523032788,5,"[""m1"", ""m2old"", ""m2new"", ""m5"", ""m6""]"

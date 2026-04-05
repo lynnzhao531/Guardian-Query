@@ -16,6 +16,15 @@ git add -f scripts/push_to_github.sh
 
 # Output data (manifests, pools, query log)
 git add -f outputs/rounds/round_*/round_manifest.json 2>/dev/null || true
+
+# Per-round article files (Tier A, Tier B, scored results)
+git add -f outputs/rounds/round_*/round_*_tier_a_papers.csv 2>/dev/null || true
+git add -f outputs/rounds/round_*/round_*_tier_b_papers.csv 2>/dev/null || true
+git add -f outputs/rounds/round_*/scored_results_full.csv 2>/dev/null || true
+
+# Tier A/B pool files (dashboard reads these for Article page)
+git add -f outputs/pools/pool_*_overall.csv 2>/dev/null || true
+git add -f outputs/pools/pool_*_candidates.csv 2>/dev/null || true
 git add -f outputs/pools/pool_*.csv 2>/dev/null || true
 git add -f outputs/query_log.csv 2>/dev/null || true
 

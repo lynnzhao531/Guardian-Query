@@ -1,0 +1,2 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type,m1_decision_p1,m2old_decision_p1,m2new_decision_p1,m3_decision_p1,m4_decision_p1,m5_decision_p1,m6_decision_p1
+https://www.theguardian.com/world/2021/oct/12/government-must-be-transparent-about-science-advice-it-receives,Government must be transparent about science advice it receives ,method_expert_qual,,LOW,0.1836559110751638,1,outlier_high,0.8,0.05,0.2,0.6895860485356693,0.34828578821967565,0.1281971037387848,0.25

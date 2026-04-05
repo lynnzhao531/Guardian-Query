@@ -1,0 +1,2 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type,m1_decision_p1,m2old_decision_p1,m2new_decision_p1,m3_decision_p1,m4_decision_p1,m5_decision_p1,m6_decision_p1
+https://www.theguardian.com/world/2021/may/27/i-was-straight-with-people-says-matt-hancock-after-dominic-cummings-claims,Johnson and Hancock dismiss Cummings’ claims of chaos and lies,method_expert_qual,,LOW,0.07828773827356302,1,outlier_high,0.8,0.05,0.05,0.4563963567202155,0.40309473602057727,0.03614189103245735,0.05

@@ -1,0 +1,16 @@
+url,title,classified_method,secondary_method,method_certainty,article_relevance_score,models_agreeing_high,disagreement_type
+https://www.theguardian.com/society/article/2024/jul/30/new-online-therapies-could-help-at-least-twice-number-of-people-recover-from-anxiety,New online therapies could help at least twice number of people recover from anxiety,method_expert_secondary,method_rct,LOW,0.26650000000000007,2,method_disagree
+https://www.theguardian.com/australia-news/2023/aug/29/labor-australian-centre-for-evaluation,Labor launches new body to evaluate public programs using randomised trials,method_rct,method_expert_qual,LOW,0.19300000000000003,1,outlier_high
+https://www.theguardian.com/commentisfree/2020/nov/10/hurdles-covid-19-vaccine-science-solutions-pandemic,"Despite the fine print, we can still feel optimistic about a Covid vaccine",method_rct,method_prepost,LOW,0.17650000000000005,1,outlier_high
+https://www.theguardian.com/australia-news/2018/nov/13/labor-pledges-to-transform-policy-making-by-creating-evaluator-general,Labor pledges to transform policy-making by creating evaluator general,method_rct,,LOW,0.14500000000000005,1,outlier_high
+https://www.theguardian.com/commentisfree/2016/nov/15/sore-throats-pharmacies-nhs,Testing sore throats at pharmacies won’t solve anything,method_rct,method_gut,LOW,0.16900000000000004,1,outlier_high
+https://www.theguardian.com/science/sifting-the-evidence/2015/apr/13/lets-help-mps-understand-the-value-of-randomised-controlled-trials,Let's help MPs understand the value of randomised controlled trials,method_rct,method_expert_secondary,LOW,0.14500000000000005,1,outlier_high
+https://www.theguardian.com/commentisfree/2014/nov/24/class-baby-breastfed-life-chances-inequality,"It’s class, not whether a baby is breastfed, that determines life chances",method_expert_secondary,,LOW,0.17050000000000004,1,outlier_high
+https://www.theguardian.com/healthcare-network/2012/apr/10/telecare-whole-system-demonstrators-wsd,Telecare: what's happened to the whole system demonstrators?,method_case_study,,LOW,0.13900000000000004,1,outlier_high
+https://www.theguardian.com/commentisfree/cifamerica/2011/mar/27/schools-teaching,No merit in merit pay for teachers,method_rct,,LOW,0.13900000000000004,1,outlier_high
+https://www.theguardian.com/education/2010/nov/30/aimhigher-less-privileged-university-aspirations,Will poorer pupils still be recruited by universities?,method_gut,,LOW,0.14500000000000005,1,outlier_high
+https://www.theguardian.com/science/2010/feb/21/peanut-allergy-clinical-trial,Doctors launch major trials to treat childhood peanut allergy after promising pilot study,method_rct,,MEDIUM,0.2965000000000001,2,near_tier_a
+https://www.theguardian.com/education/2008/sep/18/schools.children,Pupils to get lessons in fighting depression,method_rct,,MEDIUM,0.26650000000000007,2,near_tier_a
+https://www.theguardian.com/media/2002/mar/08/newmedia.society,A healthy challenge to the media,method_rct,,LOW,0.14500000000000005,1,outlier_high
+https://www.theguardian.com/society/2002/jan/09/disability.guardiansocietysupplement,U-turn on disability work plans,method_rct,,LOW,0.17650000000000005,1,outlier_high
+https://www.theguardian.com/society/2001/jan/24/disability.voluntarysector,New Deal or raw deal?,method_rct,,LOW,0.15250000000000005,1,outlier_high

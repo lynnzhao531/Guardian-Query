@@ -1,0 +1,3 @@
+url,title,classified_method,tied_methods,confidence,method_certainty,article_relevance_score,models_agreeing_high,which_models_high
+https://www.theguardian.com/society/2006/dec/06/14,Case study: Oldham individual budgets pilot project,method_case_study,"[""method_case_study""]",0.8251748251748252,HIGH,0.4627540462922024,3,"[""m1"", ""m2new"", ""m6""]"
+https://www.theguardian.com/society/2003/dec/23/longtermcare,'Sloppy slipper' scheme cuts old people's falls,method_rct,"[""method_rct""]",0.2744040918265596,LOW,0.5451440315801853,3,"[""m2old"", ""m2new"", ""m5""]"
