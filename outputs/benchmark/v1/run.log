@@ -1,0 +1,66 @@
+/opt/anaconda3/lib/python3.12/site-packages/sklearn/base.py:376: InconsistentVersionWarning: Trying to unpickle estimator Ridge from version 1.6.1 when using version 1.5.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+[2026-04-18T18:53:44] Scoring 46 articles × 7 models
+Body caps in effect: {'M1': 10000, 'M2_old': '10000 (inline)', 'M2_new': 10000, 'M3': 10000, 'M4_v3': '10000 (inline)', 'M5': '256 tokens / 512 chars (architectural)', 'M6': 10000}
+  [A01] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A02] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A03] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A04] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A05] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  5/46 done (164s elapsed)
+  [A06] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A07] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A08] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A09] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [A10] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  10/46 done (330s elapsed)
+  [B01] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B02] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B03] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B04] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B05] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  15/46 done (412s elapsed)
+  [B06] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B07] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B08] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B09] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [B10] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  20/46 done (526s elapsed)
+  [C01] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C02] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C03] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C04] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C05] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  25/46 done (672s elapsed)
+  [C06] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C07] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C08] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C09] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [C10] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  30/46 done (846s elapsed)
+  [D01] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D02] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D03] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D04] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D05] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  35/46 done (951s elapsed)
+  [D06] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D07] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D08] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D09] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [D10] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  40/46 done (1066s elapsed)
+  [E01] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [E02] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [E03] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [E04] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  [E05] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  45/46 done (1121s elapsed)
+  [E06] M3 ERROR: ValueError: <class 'numpy.random._mt19937.MT19937'> is not a known BitGenerator module.
+  46/46 done (1130s elapsed)
+wrote /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/benchmark/v1/raw_scores.csv (46 rows)
+wrote /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/benchmark/v1/cost.json (total ~$3.13)
+wrote /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/benchmark/v1/summary.md
+
+Done. Wall time 1129.7s. Approx total cost $3.13.

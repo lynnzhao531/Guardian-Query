@@ -1,0 +1,33 @@
+
+=== STEP A1: MERGE ===
+  guardian_casestudy_labeled.csv: 1000 rows  [casestudy]
+  guardian_expertqualitative_labeled.csv: 1000 rows  [expert_qual]
+  guardian_expertquantitative_labeled.csv: 31 rows  [expert_secondary]
+  guardian_gutdecision_labeled.csv: 550 rows  [gut]
+  guardian_prepost_labeled.csv: 92 rows  [prepost]
+  guardian_rct_labeled.csv: 500 rows  [rct]
+  total with duplicates: 3173
+  unique by URL: 3150
+  wrote /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/stage_a/merged_all_articles.csv (3150 rows)
+
+=== STEP A2: EXCLUSIONS ===
+  G1 liveblog: 528 excluded (expected 528±5, OK), 2622 remain  →  excluded_G1_liveblog.csv
+  G2 opinion: 309 excluded (expected 309±5, OK), 2313 remain  →  excluded_G2_opinion.csv
+  G3 sport: 92 excluded (expected 92±5, OK), 2221 remain  →  excluded_G3_sport.csv
+  G4 culture: 164 excluded (expected 164±5, OK), 2057 remain  →  excluded_G4_culture.csv
+  G5 lifestyle: 63 excluded (expected 63±5, OK), 1994 remain  →  excluded_G5_lifestyle.csv
+  G6 obituaries: 16 excluded (expected 17±3, OK), 1978 remain  →  excluded_G6_obituaries.csv
+  G7 letters_archive: 9 excluded (expected 9±3, OK), 1969 remain  →  excluded_G7_letters_archive.csv
+  G8 shop: 14 excluded (expected 14±3, OK), 1955 remain  →  excluded_G8_shop.csv
+  G9 briefings: 18 excluded (expected 17±3, OK), 1937 remain  →  excluded_G9_briefings.csv
+
+  Survivors: 1937 → /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/stage_a/survivors.csv
+  Total excluded across all groups: 1213
+
+=== STEP A3: AUDIT REPORT ===
+  wrote /Users/Mycroft/Desktop/experiment-aversion-finder/outputs/stage_a/stage_a_audit.md
+
+STAGE A COMPLETE
+Total: 3150 → Survivors: 1937
+Training overlap in survivors: 608/1937
+Output files: outputs/stage_a/*

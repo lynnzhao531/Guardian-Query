@@ -1,0 +1,90 @@
+model_name,article_id,category,subcategory,decision_p1,decision_score
+M1,B01,B,politician announces policy no evaluation,0.8,1.0
+M1,B04,B,academic paper discussion no decision,0.8,1.0
+M1,B06,B,rumored upcoming policy,0.8,1.0
+M1,B08,B,historical retrospective,0.8,1.0
+M1,B09,B,evidence-based rhetoric no specifics,0.8,1.0
+M1,B10,B,multi-option policy discussion,0.8,1.0
+M1,E01,E,pilot unclear if test or rollout,0.8,1.0
+M1,E02,E,evaluation after decision,0.8,1.0
+M1,E03,E,decision based on others' research,0.8,1.0
+M1,E04,E,method present decision implicit,0.8,1.0
+M1,E05,E,decision on one-off event,0.8,1.0
+M1,E06,E,UK adopts based on foreign data,0.8,1.0
+M2_old,B01,B,politician announces policy no evaluation,0.8,1.0
+M2_old,B05,B,policy already implemented reaction,0.8,1.0
+M2_old,B06,B,rumored upcoming policy,0.8,1.0
+M2_old,B09,B,evidence-based rhetoric no specifics,0.8,1.0
+M2_old,B10,B,multi-option policy discussion,0.8,1.0
+M2_old,C02,C,medical RCT no policy decision,0.8,1.0
+M2_old,C10,C,administrative data business,0.8,1.0
+M2_old,E01,E,pilot unclear if test or rollout,0.8,1.0
+M2_old,E02,E,evaluation after decision,0.8,1.0
+M2_old,E03,E,decision based on others' research,0.8,1.0
+M2_old,E05,E,decision on one-off event,0.8,1.0
+M2_old,E06,E,UK adopts based on foreign data,0.8,1.0
+M2_new,B01,B,politician announces policy no evaluation,0.8,1.0
+M2_new,B05,B,policy already implemented reaction,0.8,1.0
+M2_new,B06,B,rumored upcoming policy,0.8,1.0
+M2_new,B08,B,historical retrospective,0.8,1.0
+M2_new,B09,B,evidence-based rhetoric no specifics,0.8,1.0
+M2_new,C10,C,administrative data business,0.8,1.0
+M2_new,E01,E,pilot unclear if test or rollout,0.8,1.0
+M2_new,E02,E,evaluation after decision,0.8,1.0
+M2_new,E03,E,decision based on others' research,0.8,1.0
+M2_new,E04,E,method present decision implicit,0.8,1.0
+M2_new,E05,E,decision on one-off event,0.8,1.0
+M2_new,E06,E,UK adopts based on foreign data,0.8,1.0
+M3,B01,B,politician announces policy no evaluation,0.8333,0.8332502375806634
+M3,B02,B,opinion piece for policy,0.6387,0.6386762498204536
+M3,B03,B,policy debate coverage no data,0.689,0.6889869360899321
+M3,B04,B,academic paper discussion no decision,0.5678,0.5677805436906642
+M3,B05,B,policy already implemented reaction,0.7398,0.7398410721496416
+M3,B06,B,rumored upcoming policy,0.8651,0.8651028893600132
+M3,B07,B,international comparison as color,0.6131,0.6130786106513488
+M3,B08,B,historical retrospective,0.8564,0.8563758388843383
+M3,B09,B,evidence-based rhetoric no specifics,0.5611,0.5611164098991985
+M3,C01,C,court trial with 'controlled trial' language,0.6239,0.6239234603869009
+M3,C02,C,medical RCT no policy decision,0.6035,0.6034757088314947
+M3,C03,C,TV pilot episode,0.5041,0.5040563115864817
+M3,C06,C,weight loss before and after,0.5006,0.5006208591176868
+M3,C08,C,academic research announcement no policy,0.5495,0.5494958223721158
+M3,C10,C,administrative data business,0.5411,0.5411426479057221
+M3,D10,D,weather,0.5509,0.5509181885727241
+M3,E01,E,pilot unclear if test or rollout,0.7412,0.7412129100421271
+M3,E02,E,evaluation after decision,0.5759,0.5759471698882778
+M3,E03,E,decision based on others' research,0.8699,0.8699356038657544
+M3,E04,E,method present decision implicit,0.6917,0.6917240967214818
+M3,E05,E,decision on one-off event,0.6919,0.6918783775931439
+M3,E06,E,UK adopts based on foreign data,0.6656,0.6655612480072636
+M4_v3,B01,B,politician announces policy no evaluation,0.6918,0.691770510578813
+M4_v3,B02,B,opinion piece for policy,0.5305,0.5305465576155218
+M4_v3,B03,B,policy debate coverage no data,0.5014,0.5014022844804898
+M4_v3,B05,B,policy already implemented reaction,0.574,0.5740141037623805
+M4_v3,B08,B,historical retrospective,0.8941,0.8940594098697088
+M4_v3,B10,B,multi-option policy discussion,0.8115,0.8114979057082772
+M4_v3,C08,C,academic research announcement no policy,0.5218,0.5217923345913595
+M4_v3,E01,E,pilot unclear if test or rollout,0.7132,0.7132324671979414
+M4_v3,E02,E,evaluation after decision,0.5994,0.5993976159794838
+M4_v3,E03,E,decision based on others' research,0.8165,0.8164795008442574
+M4_v3,E04,E,method present decision implicit,0.5428,0.5427500929637417
+M4_v3,E05,E,decision on one-off event,0.6041,0.604104345528442
+M4_v3,E06,E,UK adopts based on foreign data,0.7309,0.7309089061952476
+M5,B01,B,politician announces policy no evaluation,0.7343,0.7342990636825562
+M5,B05,B,policy already implemented reaction,0.6402,0.6401869058609009
+M5,B06,B,rumored upcoming policy,0.7236,0.7236137390136719
+M5,B08,B,historical retrospective,0.6676,0.6675586700439453
+M5,B10,B,multi-option policy discussion,0.5699,0.5698505640029907
+M5,C02,C,medical RCT no policy decision,0.6571,0.6570578813552856
+M5,C10,C,administrative data business,0.7332,0.7331898212432861
+M5,E01,E,pilot unclear if test or rollout,0.7852,0.785181999206543
+M5,E02,E,evaluation after decision,0.7002,0.7002244591712952
+M5,E03,E,decision based on others' research,0.5275,0.5274632573127747
+M5,E04,E,method present decision implicit,0.6236,0.6236009001731873
+M5,E05,E,decision on one-off event,0.5854,0.5853655934333801
+M5,E06,E,UK adopts based on foreign data,0.7407,0.7406736612319946
+M6,C10,C,administrative data business,0.65,0.6499999999999999
+M6,E01,E,pilot unclear if test or rollout,0.65,0.6499999999999999
+M6,E02,E,evaluation after decision,0.55,0.55
+M6,E03,E,decision based on others' research,0.75,0.75
+M6,E06,E,UK adopts based on foreign data,0.65,0.6499999999999999

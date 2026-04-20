@@ -1,0 +1,65 @@
+{
+  "run_id": "2026-04-18T19:12:34",
+  "n_articles": 46,
+  "body_cap": 10000,
+  "per_model": {
+    "M1": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.04,
+      "approx_total_usd": 1.84,
+      "latency_avg_s": 1.784,
+      "latency_p90_s": 2.171
+    },
+    "M2_old": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.01,
+      "approx_total_usd": 0.46,
+      "latency_avg_s": 9.316,
+      "latency_p90_s": 33.119
+    },
+    "M2_new": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.01,
+      "approx_total_usd": 0.46,
+      "latency_avg_s": 8.464,
+      "latency_p90_s": 31.316
+    },
+    "M3": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.0,
+      "approx_total_usd": 0.0,
+      "latency_avg_s": 0.0,
+      "latency_p90_s": 0.0,
+      "note": "Initial run errored under Python 3.12 (numpy BitGenerator pickle mismatch); re-scored under production Python 3.9, 46/46 success. Latency not re-measured."
+    },
+    "M4_v3": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.003,
+      "approx_total_usd": 0.138,
+      "latency_avg_s": 3.928,
+      "latency_p90_s": 4.938
+    },
+    "M5": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.0,
+      "approx_total_usd": 0.0,
+      "latency_avg_s": 0.164,
+      "latency_p90_s": 0.07
+    },
+    "M6": {
+      "success": 46,
+      "errors": 0,
+      "approx_cost_per_call_usd": 0.005,
+      "approx_total_usd": 0.23,
+      "latency_avg_s": 0.899,
+      "latency_p90_s": 1.139
+    }
+  },
+  "total_usd": 3.128
+}

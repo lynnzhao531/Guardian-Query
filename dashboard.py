@@ -230,7 +230,13 @@ def load_scored_rounds() -> pd.DataFrame:
 st.sidebar.title("Experiment Aversion Finder")
 page = st.sidebar.radio(
     "Pages",
-    ["About This Project", "The Articles", "Query History", "Reproduce Files"],
+    [
+        "Revised Pipeline (After Meeting)",
+        "About This Project",
+        "The Articles",
+        "Query History",
+        "Reproduce Files",
+    ],
 )
 if st.sidebar.button("Refresh Data"):
     st.cache_data.clear()
@@ -1009,9 +1015,1104 @@ def page_reproduce_files():
         render_model_health()
 
 
+# ── Page: Revised Pipeline (After Meeting) ──────────────────────────────────
+
+def render_revised_pipeline() -> None:
+    import os
+
+    st.title("Revised Pipeline (After Meeting) — Progress Log")
+
+    st.markdown(
+        "**What the project does.** We search articles in *The "
+        "Guardian* for examples that match a specific prototype: an "
+        "organization tests or compares policy options using a "
+        "research method, and decides what to do based on the "
+        "result. Most articles don't match this prototype. Earlier "
+        "work built a pipeline of 6 models to score articles and a "
+        "bandit-driven query refinement loop to retrieve more of "
+        "them. Progress has been limited; in the team meeting we "
+        "reviewed why and redesigned the pipeline.\n\n"
+        "This page documents each concern raised in that meeting, "
+        "the response we took, and the evidence behind it."
+    )
+
+    st.info(
+        "**Status:** Stage 0 ✅  |  Stage A ✅  |  "
+        "Stage B ⏳ running  |  Stage C ⏸  |  Stage D ⏸"
+    )
+
+    st.markdown("**The revised pipeline at a glance:**")
+
+    st.code(
+        "  Stage 0            Stage A              Stage B              "
+        "Stage C              Stage D\n"
+        "  Benchmark     →    Rule exclusion   →   Topic model    →     "
+        "Apply models     →   Human\n"
+        "  6 models on         3,150 → 1,937        1,937 → (TBD)        "
+        "to survivors          review\n"
+        "  46 articles         by 9 rules           by LDA               "
+        "using Stage 0         top rank\n"
+        "                                                                "
+        "performance\n",
+        language=None,
+    )
+
+    st.markdown(
+        "Concerns 1 and 2 are about **which articles** we put into "
+        "the analysis. Concerns 3, 4, 5 are about **how the 6 "
+        "models behave**. The evidence for 3, 4, 5 all comes from "
+        "one **benchmark experiment**, described when we reach "
+        "Concern 4."
+    )
+
+    st.divider()
+
+    def _dl(label, path, key):
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                st.download_button(
+                    label, f.read(),
+                    file_name=os.path.basename(path),
+                    key=key,
+                )
+
+    # ── CONCERN 1 ──
+    st.header(
+        "Concern 1 — Don't trust model classifications until the "
+        "models are validated"
+    )
+
+    st.markdown(
+        "**Problem.** The 6 models haven't been benchmarked against "
+        "ground truth. Asking them to find target articles is risky "
+        "— model errors propagate into our candidate list.\n\n"
+        "A second problem: the pipeline currently runs classifiers "
+        "on about **~100 articles per round**. Classifier behavior "
+        "at that sample size is unstable. What we conclude from one "
+        "round rarely reproduces in the next.\n\n"
+        "**Meeting suggestion.** Work from the 6 seed CSVs (3,150 "
+        "articles). Apply a **two-stage cut**: first **rule-based** "
+        "exclusion, then **LDA-based** exclusion. Only apply "
+        "classifiers to what survives both stages.\n\n"
+        "**Stage A — rule-based exclusion [done].** 3,150 articles "
+        "merged from the 6 seed CSVs; 9 rules based on *The "
+        "Guardian*'s URL taxonomy (live blogs, opinion, sports, "
+        "entertainment sections, etc.). Every rule is individually "
+        "justifiable — the table below shows each rule and its "
+        "reason. **1,213 articles removed (38.5% of pool)** with "
+        "no interpretive judgment required."
+    )
+
+    exclusion_data = [
+        ("G1 — Live blogs and \"as it happened\"", 528, 2622,
+         "Live blogs describe unfolding events, not completed policy "
+         "evaluations"),
+        ("G2 — Opinion (/commentisfree/)", 309, 2313,
+         "Opinion pieces are argument, not evidence-based evaluation"),
+        ("G3 — Sport and football", 92, 2221,
+         "Sports articles are not about organizational policy"),
+        ("G4 — Culture (books/TV/film/music/stage/art)", 164, 2057,
+         "Cultural coverage is review/feature, not policy evaluation"),
+        ("G5 — Lifestyle (food/travel/fashion/games)", 63, 1994,
+         "Lifestyle content is consumer-facing, not institutional"),
+        ("G6 — Obituaries", 16, 1978,
+         "Obituaries are biographical, not evaluative"),
+        ("G7 — Letters / historical archive", 9, 1969,
+         "Reader letters and archival pieces are not about current "
+         "evaluation"),
+        ("G8 — Masterclasses / shop", 14, 1955,
+         "Commercial Guardian content is not editorial policy coverage"),
+        ("G9 — News briefings / digests", 18, 1937,
+         "Daily briefings summarize; they don't evaluate"),
+    ]
+    excl_df = pd.DataFrame(
+        exclusion_data,
+        columns=["Rule", "Removed", "Remaining", "Justification"],
+    )
+    st.dataframe(excl_df, hide_index=True, use_container_width=True)
+
+    st.markdown(
+        "#### Stage B — LDA topic modeling\n\n"
+        "**What LDA does.** Latent Dirichlet Allocation groups "
+        "articles into themes by finding clusters of words that "
+        "tend to co-occur. Each article becomes a mixture of "
+        "themes — for example, an article might be 70% \"medical "
+        "trials\" and 30% \"UK politics\" if it discusses both. "
+        "The method needs one input from us: **K**, the number of "
+        "themes to look for.\n\n"
+        "**What we asked of it.** Two things. First, identify "
+        "topics clearly unrelated to policy testing — candidates "
+        "for further exclusion. Second, build a thematic map of "
+        "the 1,937 survivors so each article carries a topic label "
+        "into downstream scoring. We define *target articles* "
+        "(for later use on this page) as articles that resemble "
+        "the experiment-aversion prototype: an organization tests "
+        "policy options using a research method and decides based "
+        "on results.\n\n"
+        "**Headline finding.** We tested **62 parameter "
+        "configurations** across preprocessing, vocabulary "
+        "filtering, and Dirichlet priors. None fixed the low "
+        "topic-label stability we observed. Splitting the corpus "
+        "by newspaper section (in case heterogeneity was the "
+        "cause) only raised stability from 0.22 to 0.31. "
+        "**Instability at fine-grained K appears to be a property "
+        "of this corpus: small (1,937 articles) and thematically "
+        "mixed, so individual topic boundaries shift across random "
+        "seeds — but document CLUSTERS (which articles group "
+        "together) are more stable than the WORDS labeling each "
+        "cluster.** This is a finding, not a failure, and it "
+        "shapes how Stage C uses Stage B's output."
+    )
+
+    _k_sweep = "outputs/stage_b/v2/K_sweep/K_sweep_plots.png"
+    if os.path.exists(_k_sweep):
+        st.image(
+            _k_sweep, use_column_width=True,
+            caption="Coherence (how interpretable topics are) and "
+                    "stability (how reproducible they are across "
+                    "random seeds) as we vary K. Coherence peaks "
+                    "around K=15 while stability decreases "
+                    "monotonically. We chose K=15 as the primary "
+                    "model — coherence-optimal at a still-usable "
+                    "stability level. K=5 is mentioned in the fold "
+                    "below as a stable-but-coarse reference.",
+        )
+    else:
+        st.warning(f"K-sweep plot not found at {_k_sweep}")
+
+    st.markdown(
+        "**The 15 topics.** Each row below is one theme LDA found. "
+        "The \"training overlap\" column tells us what fraction of "
+        "that topic's articles appear in our earlier expert-"
+        "labeled training data — high values mean our models have "
+        "seen that territory before; low values mean the models "
+        "will need to generalize. The \"relevance hypothesis\" "
+        "column is LDA's auto-flag based on policy-adjacent "
+        "vocabulary, for later human review."
+    )
+
+    _topics_data = [
+        (0, 96, 30, "International affairs and rights",
+         "Mixed — review needed"),
+        (1, 49, 18, "US politics", "Unlikely target"),
+        (2, 84, 30, "Media and press coverage",
+         "Mixed — review needed"),
+        (3, 266, 36, "Youth services and mental health",
+         "Mixed — review needed"),
+        (4, 66, 18, "Mixed (water / schools / families)",
+         "Mixed — review needed"),
+        (5, 66, 23, "War and international security",
+         "Mixed — review needed"),
+        (6, 278, 17, "UK economic policy", "Likely target"),
+        (7, 82, 21, "Mixed (corporate / aid)",
+         "Mixed — review needed"),
+        (8, 134, 16, "Australian government reviews",
+         "Mixed — review needed"),
+        (9, 217, 86, "Medical trials and research",
+         "Likely target"),
+        (10, 70, 24, "Housing and household costs",
+         "Mixed — review needed"),
+        (11, 164, 31, "Climate and energy policy",
+         "Mixed — review needed"),
+        (12, 84, 56, "Covid and vaccines", "Likely target"),
+        (13, 211, 14, "Criminal justice", "Likely target"),
+        (14, 70, 9, "UK benefits and carer's allowance",
+         "Mixed — review needed"),
+    ]
+    _topics_df = pd.DataFrame(
+        _topics_data,
+        columns=["Topic", "Articles", "Training %",
+                 "Theme (our reading)", "Relevance hypothesis"],
+    )
+    st.dataframe(_topics_df, hide_index=True,
+                 use_container_width=True)
+    st.caption(
+        "Theme labels reflect our reading of the top words and "
+        "exemplar articles; LDA's raw top-word lists are in the "
+        "downloadable topic cards. Dan: suggest labels in the fold "
+        "below if you'd word them differently."
+    )
+
+    st.markdown(
+        "**Article-cluster stability.** For any given article, we "
+        "measured how consistently it gets grouped with the same "
+        "companion articles when LDA is re-run with different "
+        "random seeds. Median stability is 0.26 across 5 seeds — "
+        "modest, but meaningfully higher than the word-label "
+        "stability of 0.22. Interpretation: when LDA re-runs, the "
+        "TOP-20 WORDS of each topic drift more than the ARTICLES "
+        "that compose each cluster. The clusters are real "
+        "structures in the corpus; the words we use to label them "
+        "are partly an artifact of random initialization. For "
+        "downstream Stage C use, the article-to-cluster assignment "
+        "carries signal even though individual topic labels are "
+        "imperfect.\n\n"
+        "**Independent validation via BERTopic.** We ran a "
+        "different method (embedding-based clustering) on the "
+        "same 1,937 articles. Configured for very-coarse "
+        "granularity (2 macro-themes), BERTopic and LDA agreed on "
+        "10 of 15 LDA topics (their dominant-assigned articles "
+        "fell inside BERTopic's macro-structure). At finer "
+        "granularities, the two methods disagreed on boundaries "
+        "but identified similar broad structure. Triangulation is "
+        "partial — not perfect agreement, but not fundamental "
+        "disagreement either.\n\n"
+        "**What Stage B gives Stage C.** Every surviving article "
+        "now has (a) a dominant topic label, (b) a full "
+        "15-dimensional topic distribution, and (c) a flag for "
+        "whether its topic has high or low overlap with our "
+        "training data. Stage C can use these as context when "
+        "applying the 6 models."
+    )
+
+    with st.expander(
+        "How we set up the LDA — step-by-step assumption check"
+    ):
+        st.markdown(
+            "Standard LDA practice (Blei, Ng & Jordan 2003; "
+            "stability framing from Griffiths & Steyvers 2004; "
+            "coherence from Röder et al. 2015; critique from "
+            "Hoyle et al. 2021) gives a checklist of assumptions. "
+            "We tested each on our data rather than assuming.\n\n"
+            "| # | Assumption | How we checked | Verdict |\n"
+            "|---|---|---|---|\n"
+            "| 1 | Documents long enough for topic mixtures | "
+            "Length stats: median 827 words, P10=512, P90=1679 | "
+            "OK — all well above the minimum viable threshold |\n"
+            "| 2 | Bag-of-words is acceptable (word order "
+            "ignored) | Tested 5 preprocessing variants including "
+            "bigrams (P3) and named-entity preservation (P4) at "
+            "K=20 | Acceptable limitation — no variant improved "
+            "stability meaningfully. BERTopic (which is not "
+            "bag-of-words) triangulates. |\n"
+            "| 3 | Documents are exchangeable (no time effects "
+            "modeled) | Corpus spans 2000–2025; cannot test "
+            "directly | Acknowledged limitation — static model. "
+            "Dynamic LDA (Blei & Lafferty 2006) would address "
+            "this. |\n"
+            "| 4 | Dirichlet priors don't arbitrarily shape "
+            "results | 25-cell grid: α ∈ {0.01, 0.1, 1.0, "
+            "symmetric, auto} × η ∈ same set, 3 seeds each | No "
+            "cell broke stability = 0.35. Learned priors "
+            "(auto/auto) selected. |\n"
+            "| 5 | K (number of topics) is correctly specified | "
+            "9 K values (5, 8, 10, 12, 15, 18, 20, 25, 30), 5 "
+            "seeds each, coherence + stability + held-out "
+            "perplexity | K=15 won c_v coherence (0.466). K=5 won "
+            "stability (0.39). Picked K=15 as primary because "
+            "topics there are interpretable; K=5 documented as "
+            "stability reference. |\n"
+            "| 6 | Vocabulary filter not arbitrary | 12-cell grid: "
+            "min_df ∈ {3, 5, 10, 15} × max_df ∈ {0.3, 0.5, 0.7}, "
+            "3 seeds each | No cell broke stability = 0.35. Kept "
+            "standard defaults (min_df=5, max_df=0.5). |\n"
+            "| 7 | Topics are human-interpretable | Per-topic "
+            "top-20 words + 5 exemplar documents reviewed; c_v "
+            "coherence (Röder 2015) + c_npmi as secondary; "
+            "BERTopic triangulation as independent method | "
+            "Interpretable (see topic table above); c_v has known "
+            "issues per Hoyle 2021, mitigated by multi-method "
+            "check. |\n\n"
+            "**Decision rule when tests conflicted.** When c_v "
+            "coherence and stability disagreed across "
+            "preprocessing variants, we preferred stability "
+            "(Round 2 framing: \"structural understanding over "
+            "filter purity\"). Same rule for vocab and prior "
+            "grids. For K, coherence ranking was used as the "
+            "primary criterion because peak-coherence topics are "
+            "what Dan will actually read.\n\n"
+            "**What was skipped deliberately, and why.** We did "
+            "not run Dynamic LDA (Blei & Lafferty 2006) — our "
+            "corpus spans 25 years but 83% is 2018+ so "
+            "within-window mixing likely dominates cross-year "
+            "drift. We did not run Hierarchical LDA — the flat "
+            "K=15 topics are already at the edge of "
+            "interpretability for a 1,937-doc corpus. Both can be "
+            "added as follow-ups if Dan wants to commission them."
+        )
+
+    with st.expander(
+        "Why we think topic-label instability isn't a bug — "
+        "the 62-configuration grid"
+    ):
+        st.markdown(
+            "62 parameter configurations in the sensitivity grids "
+            "all produced topic-word Jaccard stability in a tight "
+            "0.19–0.25 band, far below the 0.7 threshold that "
+            "would indicate stable topic boundaries.\n\n"
+            "**What stability measures.** We ran LDA with 3 "
+            "different random seeds at each configuration. For "
+            "each topic in each run, we take the top-20 "
+            "highest-probability words. We compare those word "
+            "lists across seeds; Jaccard = intersection over "
+            "union. Average across all topics gives the stability "
+            "number.\n\n"
+            "**What 0.22 means in plain terms.** When you re-run "
+            "LDA with a different random seed, only about 22% of "
+            "each topic's top-20 words reappear in the same "
+            "position across runs. In other words, topic labels "
+            "are noisy — they're not a stable basis for downstream "
+            "filtering of articles by topic name.\n\n"
+            "**What we varied:**"
+        )
+        _vocab = "outputs/stage_b/v2/vocab_sensitivity/grid_heatmap.png"
+        if os.path.exists(_vocab):
+            st.image(
+                _vocab, use_column_width=True,
+                caption="Vocabulary filter grid: 12 cells "
+                        "(min_df × max_df). Color = stability. "
+                        "None breached 0.35; horizontal pattern "
+                        "shows stability is roughly invariant to "
+                        "vocabulary choice.",
+            )
+        _prior = "outputs/stage_b/v2/prior_sensitivity/alpha_eta_stability_heatmap.png"
+        if os.path.exists(_prior):
+            st.image(
+                _prior, use_column_width=True,
+                caption="Prior grid: 25 cells (α × η). Color = "
+                        "stability. Same finding — no combination "
+                        "reached stability 0.35.",
+            )
+        st.markdown(
+            "**Why section-stratification didn't help.** If the "
+            "corpus were made up of cleanly distinct section-level "
+            "sub-corpora, running LDA within each section should "
+            "give more stable topics. We tried it on the 10 "
+            "sections with enough articles:\n\n"
+            "| Section | n | best K | stability |\n"
+            "|---|---:|---:|---:|\n"
+            "| World News | 242 | 3 | **0.53** |\n"
+            "| Business | 115 | 5 | 0.35 |\n"
+            "| Science | 79 | 3 | 0.36 |\n"
+            "| Society | 292 | 8 | 0.28 |\n"
+            "| Australia news | 361 | 8 | 0.28 |\n"
+            "| US news | 115 | 5 | 0.27 |\n"
+            "| Environment | 108 | 5 | 0.25 |\n"
+            "| Politics | 111 | 8 | 0.24 |\n"
+            "| UK news | 122 | 8 | 0.21 |\n"
+            "| Education | 82 | 8 | 0.27 |\n\n"
+            "World News is the one clear case where within-section "
+            "structure is more stable, and its setup tells us why: "
+            "242 articles with K=3 gives ~80 articles per topic — "
+            "plenty of data per theme and thematically contained "
+            "(international news). Elsewhere, per-topic sample "
+            "sizes are thin (~15–30 articles per topic at K=5-8) "
+            "and themes bleed across section boundaries, so "
+            "stability improvements are modest.\n\n"
+            "**Conclusion.** Stability is bounded by per-topic "
+            "sample size in our corpus. At K=15 with 1,937 "
+            "articles, each topic gets ~130 articles on average — "
+            "thematically mixed enough that word-level labels "
+            "don't cleanly reproduce across seeds. This is a "
+            "property of our data, not a property of our choices."
+        )
+
+    with st.expander(
+        "Topic inventory — full detail and download"
+    ):
+        st.markdown(
+            "The topic table above uses short descriptive labels. "
+            "Below is a training-overlap bar chart for a fast "
+            "visual sense of which topics the models have seen "
+            "(high bars) vs where they'll need to generalize "
+            "(low bars)."
+        )
+        _overlap = "outputs/stage_b/v2/plots/plot_topic_overlap.png"
+        if os.path.exists(_overlap):
+            st.image(
+                _overlap, use_column_width=True,
+                caption="Per-topic training-data overlap. T9 "
+                        "(medical trials) is dominated by "
+                        "training-data articles — our models have "
+                        "high prior knowledge here. T14 (carer's "
+                        "allowance), T13 (criminal justice), and "
+                        "T8 (Australian reviews) are mostly new "
+                        "territory.",
+            )
+        else:
+            st.warning(
+                f"Topic-overlap plot not found at {_overlap}"
+            )
+        st.markdown(
+            "**Individual topic cards.** Each topic has a detailed "
+            "card with top 30 words, exemplar articles, peripheral "
+            "articles, BERTopic correspondence, date range, and "
+            "section concentration. Download the full inventory or "
+            "individual cards below."
+        )
+        _index_path = "outputs/stage_b/v2/topic_profiles/INDEX.md"
+        if os.path.exists(_index_path):
+            with open(_index_path, "rb") as f:
+                st.download_button(
+                    "INDEX.md (all 15 topics)", f.read(),
+                    file_name="INDEX.md", key="stageb_index",
+                )
+        for _k in range(15):
+            _path = f"outputs/stage_b/v2/topic_profiles/topic_{_k}.md"
+            if os.path.exists(_path):
+                with open(_path, "rb") as f:
+                    st.download_button(
+                        f"topic_{_k}.md", f.read(),
+                        file_name=f"topic_{_k}.md",
+                        key=f"stageb_topic_{_k}",
+                    )
+
+    with st.expander(
+        "BERTopic triangulation — full detail"
+    ):
+        st.markdown(
+            "BERTopic uses sentence-transformer embeddings + "
+            "HDBSCAN clustering. It's a completely different "
+            "method from LDA (embedding-based, not bag-of-words; "
+            "density-based, not probabilistic). Agreement between "
+            "the two methods is evidence that the structure LDA "
+            "finds is real; disagreement tells us where the "
+            "methods have different inductive biases.\n\n"
+            "We ran BERTopic at three granularities by varying "
+            "min_cluster_size:\n\n"
+            "| BERTopic config | min_cluster_size | BT topics "
+            "found | LDA topics with doc-overlap ≥ 50% |\n"
+            "|---|---:|---:|---:|\n"
+            "| Default | 10 | 38 | 1 of 15 |\n"
+            "| Coarse | 40 | 7 | 5 of 15 |\n"
+            "| Very coarse | 80 | 2 | 10 of 15 |\n\n"
+            "**Reading the table.** At default settings, BERTopic "
+            "finds many fine-grained clusters (38) and LDA and "
+            "BERTopic disagree on most boundaries (only 1 of LDA's "
+            "15 topics has dominant-assigned articles that cluster "
+            "together in BERTopic). At coarser settings, BERTopic "
+            "collapses toward macro-structure (7, then 2 "
+            "clusters), and LDA topics start fitting inside "
+            "BERTopic's coarser groups (5, then 10 of 15 LDA "
+            "topics \"live inside\" a BERTopic macro-cluster).\n\n"
+            "**Interpretation.** Both methods see structure in "
+            "this corpus at a macro level — there are ~2 big "
+            "thematic groups that both agree on. Below that, the "
+            "methods carve finer boundaries differently. Neither "
+            "is wrong; they're capturing the same corpus at "
+            "different resolutions. For our purpose (identifying "
+            "policy-test articles), both the LDA 15 and the "
+            "BERTopic macro-2 views are useful, but at different "
+            "levels of abstraction."
+        )
+
+    with st.expander(
+        "Article-cluster stability — distribution and training effects"
+    ):
+        _stability = "outputs/stage_b/v2/plots/plot_article_stability.png"
+        if os.path.exists(_stability):
+            st.image(
+                _stability, use_column_width=True,
+                caption="Distribution of per-article companion "
+                        "stability across 5 LDA runs at K=15. "
+                        "Articles in the expert-labeled training "
+                        "data have higher median stability (0.32) "
+                        "than new articles (0.24) — LDA partially "
+                        "re-derives the structure the training "
+                        "labels already encoded.",
+            )
+        else:
+            st.warning(f"Stability plot not found at {_stability}")
+        st.markdown(
+            "**What this tells us.**\n\n"
+            "- Median article-cluster stability is 0.26 — modest "
+            "but above topic-label stability (0.22).\n"
+            "- The top 25% of articles have stability ≥ 0.38, "
+            "meaning their cluster membership is reasonably "
+            "reproducible.\n"
+            "- The bottom 25% have stability ≤ 0.16 — these are "
+            "articles with genuinely ambiguous topic membership "
+            "(high entropy in their topic distribution).\n"
+            "- Training articles (articles previously labeled by "
+            "experts) are more stable (median 0.32) than new "
+            "articles (0.24). LDA has something to \"pull them "
+            "toward\" — their content resembles training "
+            "exemplars so they consistently cluster near them.\n\n"
+            "**For downstream use.** When Stage C weights model "
+            "scores by topic context, high-stability articles' "
+            "topic assignments are more trustworthy. Low-stability "
+            "articles may need human review regardless of model "
+            "scores."
+        )
+
+    with st.expander(
+        "Methodology document and reproducibility"
+    ):
+        st.markdown(
+            "**Tools and versions.**\n"
+            "- Python 3.9\n"
+            "- gensim 4.3.3 (LDA implementation; Blei 2003 "
+            "variational inference)\n"
+            "- spaCy 3.x (lemmatization)\n"
+            "- sentence-transformers with all-MiniLM-L6-v2 "
+            "(BERTopic embeddings)\n"
+            "- Random seeds: [42, 13, 99, 7, 123]\n\n"
+            "**Key references.**\n"
+            "- Blei, Ng, Jordan (2003) — \"Latent Dirichlet "
+            "Allocation\" (JMLR). The original LDA paper.\n"
+            "- Griffiths & Steyvers (2004) — \"Finding scientific "
+            "topics\" (PNAS). Introduced stability via repeated "
+            "sampling.\n"
+            "- Röder, Both, Hinneburg (2015) — c_v coherence "
+            "validated as the best automated metric correlating "
+            "with human judgment.\n"
+            "- Hoyle et al. (2021) — \"Is Automated Topic Model "
+            "Evaluation Broken?\" Showed c_v has limitations; "
+            "we mitigate with multiple metrics + BERTopic "
+            "triangulation + human inspection of exemplars.\n\n"
+            "**Full methodology document and reproducibility:**"
+        )
+        _methodology = "outputs/stage_b/v2/METHODOLOGY_v2.md"
+        if os.path.exists(_methodology):
+            with open(_methodology, "rb") as f:
+                st.download_button(
+                    "METHODOLOGY_v2.md — full decision log",
+                    f.read(), file_name="METHODOLOGY_v2.md",
+                    key="stageb_methodology",
+                )
+        st.markdown(
+            "**Reproduction.** The full script is in scripts/ "
+            "(see repo). It takes approximately 3–4 hours "
+            "end-to-end on modern hardware. All intermediate "
+            "models are saved for auditing.\n\n"
+            "**What to check if you want to push further.** Two "
+            "analyses were deliberately skipped: Dynamic LDA "
+            "(temporal evolution of topics) and Hierarchical LDA "
+            "(tree-structured topic splits). Both are runnable as "
+            "follow-ups if that level of detail is needed."
+        )
+
+    st.markdown(
+        "**📋 What to look at to audit Stage B (in order):**\n\n"
+        "1. The 15-topic table above — do our topic labels match "
+        "what you'd conclude from the top-words?\n"
+        "2. Download INDEX.md and skim it — 30 seconds per topic.\n"
+        "3. Open a few individual topic cards (topic_6.md, "
+        "topic_9.md, topic_13.md, topic_14.md cover the "
+        "interesting range).\n"
+        "4. Open the \"How we set up the LDA\" fold — confirm the "
+        "assumptions table covers what you'd want checked.\n"
+        "5. Open METHODOLOGY_v2.md for the full decision log if "
+        "auditing the whole process."
+    )
+
+    with st.expander("Technical details and reproducible files"):
+        st.markdown(
+            "**Per-method contamination.** Each method's seed query "
+            "pulled in different proportions of noise. Examples:\n"
+            "- prepost query: 43.5% live blogs (articles using \"before "
+            "and after\" conversationally)\n"
+            "- expertquantitative: 55% noise (corpus too small and "
+            "generic)\n"
+            "- expertqualitative: 22% live blogs (parliamentary "
+            "reporters mention \"expert panel\" constantly)\n\n"
+            "**Training-data overlap.** 608 of the 1,937 survivors "
+            "(31.4%) appear in expert-labeled training data. The "
+            "remaining 1,329 are articles where models need to "
+            "generalize.\n\n"
+            "**Files:**"
+        )
+        _dl("merged_all_articles.csv — all 3,150 articles",
+            "outputs/stage_a/merged_all_articles.csv",
+            "revpipe_c1_merged")
+        _dl("survivors.csv — 1,937 after exclusion",
+            "outputs/stage_a/survivors.csv", "revpipe_c1_survivors")
+        _dl("stage_a_audit.md — full audit report",
+            "outputs/stage_a/stage_a_audit.md", "revpipe_c1_audit")
+
+        st.markdown("**Per-group exclusion files:**")
+        group_names = {
+            1: "liveblog", 2: "opinion", 3: "sport", 4: "culture",
+            5: "lifestyle", 6: "obituaries", 7: "letters_archive",
+            8: "shop", 9: "briefings",
+        }
+        for i, name in group_names.items():
+            _dl(
+                f"excluded_G{i}_{name}.csv",
+                f"outputs/stage_a/excluded_G{i}_{name}.csv",
+                f"revpipe_c1_g{i}",
+            )
+
+    st.divider()
+
+    # ── CONCERN 2 ──
+    st.header(
+        "Concern 2 — The bandit's query refinement happens on an "
+        "open system"
+    )
+
+    st.markdown(
+        "**Problem.** The bandit updates queries based on results, "
+        "and the article pool grows round-over-round. Bandit "
+        "algorithms assume a **closed action space**; ours isn't. "
+        "Updates on a moving target introduce noise rather than "
+        "improvement.\n\n"
+        "**Meeting suggestion.** Pause the bandit. Work from one "
+        "round's results.\n\n"
+        "**What we did.** Paused. No new rounds since the meeting. "
+        "All analysis on this page uses the frozen 3,150-article "
+        "seed set.\n\n"
+        "The benchmark below (Concerns 3, 4, 5) uses **46 "
+        "hand-crafted synthetic articles** — not drawn from the "
+        "seed set. They test model behavior under known ground "
+        "truth, independent of the frozen corpus."
+    )
+
+    st.divider()
+
+    # ── THE BENCHMARK (Concern 4) ──
+    st.header("The benchmark experiment")
+
+    st.markdown(
+        "The next three concerns (3, 4, 5) are about the 6 models' "
+        "behavior. To say anything rigorous about model behavior, "
+        "we need articles where the correct answer is known. That "
+        "construction — and its rationale — comes first. Concerns "
+        "3 and 5 then read different views of the benchmark's "
+        "results."
+    )
+
+    st.subheader(
+        "Concern 4 — Models treated as equally reliable without "
+        "evidence"
+    )
+
+    st.markdown(
+        "**Problem.** The consensus rule treats every model's vote "
+        "as equally informative. We never measured which model is "
+        "most accurate, so **equal weights are unjustified**.\n\n"
+        "**Meeting suggestion.** Benchmark the models against "
+        "**ground truth**. Dan proposed **predicting article "
+        "section** — *The Guardian*'s API provides the section "
+        "label for free.\n\n"
+        "**Compatibility check.**"
+    )
+
+    compat_data = [
+        ("Suggested task",
+         "Predict article section from title + body"),
+        ("Model output format",
+         "7-dimension relevance score: one decision score + six "
+         "method-type scores. Not a section label."),
+        ("Compatibility",
+         "Incompatible. Re-prompting for section would test a "
+         "different task from what the pipeline does."),
+    ]
+    compat_df = pd.DataFrame(
+        compat_data, columns=["Step", "Finding"]
+    )
+    st.dataframe(compat_df, hide_index=True, use_container_width=True)
+
+    st.markdown(
+        "**Alternative that preserves the ground-truth logic.** "
+        "We hand-crafted **46 synthetic articles** across 5 "
+        "categories. We define the correct answer for each. Every "
+        "model scores every article. Same \"measure models against "
+        "known truth\" logic Dan proposed — compatible with our "
+        "models' 7-dimensional output format (one decision score + "
+        "6 method-type scores per article).\n\n"
+        "**Category design — the framework for interpreting "
+        "everything below.** Each article targets a specific "
+        "combination of two independent signals our models score:\n"
+        "- **Decision signal** — does the article describe an "
+        "organization making a policy decision?\n"
+        "- **Method signal** — does the article use research-method "
+        "vocabulary (RCT, case study, pilot)?"
+    )
+
+    cat_data = [
+        ("**Target** (A)",       "high", "high",
+         "NHS tests two screening methods; decides based on results"),
+        ("**Topical** (B)",      "high", "low",
+         "Minister announces policy with no evaluation"),
+        ("**Trap** (C)",         "low",  "high",
+         "Court criminal trial described as \"controlled trial\""),
+        ("**Unrelated** (D)",    "low",  "low",
+         "Football match report"),
+        ("**Borderline** (E)",   "mid",  "mid",
+         "Pilot unclear if test or rollout"),
+    ]
+    cat_df = pd.DataFrame(
+        cat_data,
+        columns=["Category", "Decision", "Method", "Example"],
+    )
+    st.dataframe(cat_df, hide_index=True, use_container_width=True)
+    st.caption(
+        "Descriptive names used throughout this page. Data files "
+        "use the letter codes A–E."
+    )
+
+    st.markdown(
+        "**Key finding — per-method calibration per model.** For "
+        "each research method, does each model correctly score high "
+        "on articles labeled with that method, and low on articles "
+        "that aren't?\n\n"
+        "The plot below breaks the 6 method dimensions into 6 "
+        "panels. In each panel, the green dots are articles labeled "
+        "with that method (they should score high). The grey "
+        "distribution is articles NOT labeled with that method "
+        "(they should score low)."
+    )
+
+    _scatter = "outputs/benchmark/v1/plots/plot_scatter_decision_method.png"
+    if os.path.exists(_scatter):
+        st.image(
+            _scatter, use_column_width=True,
+            caption="Per-method calibration. Each panel is one "
+                    "method. Green dots = articles labeled with "
+                    "that method (expected HIGH). Grey distribution "
+                    "= articles NOT labeled with that method "
+                    "(expected LOW). A well-calibrated model has "
+                    "its green dots clearly above its grey "
+                    "distribution.",
+        )
+    else:
+        st.warning(
+            "Plot not found at " + _scatter + ". "
+            "Run scripts/build_revised_pipeline_plots.py."
+        )
+
+    st.markdown(
+        "Reading the plot per panel: a green dot high on the "
+        "y-axis with the grey distribution low below it means the "
+        "model distinguishes \"has this method\" from \"doesn't "
+        "have this method\" cleanly. A green dot low, or a grey "
+        "distribution that's high, means the model is confused. "
+        "Look across the 6 panels to see which methods each model "
+        "is best at.\n\n"
+        "Across methods, M6 Haiku and M5 tend to show the cleanest "
+        "separation. M3 and M4-v3 show green dots that are not "
+        "reliably higher than grey distributions on several "
+        "methods — a calibration weakness. The `gut` panel has no "
+        "green dots because the benchmark has no articles labeled "
+        "with that method."
+    )
+
+    with st.expander("Technical details and reproducible files"):
+        st.markdown(
+            "**AUC on the decision dimension — works for all 7 "
+            "models.** Since AUC depends only on the ordering of a "
+            "single score, we can compute it on decision_p1 for "
+            "every model (including the three discrete ones). This "
+            "is the cleanest per-model classification metric.\n\n"
+            "| Model | AUC (Target vs Unrelated) | AUC (Target vs Not-target) |\n"
+            "|---|---|---|\n"
+            "| M1 Sonnet | 1.00 | 0.90 |\n"
+            "| M2-old    | 1.00 | 0.88 |\n"
+            "| M2-new    | 1.00 | 0.90 |\n"
+            "| M3        | 1.00 | 0.86 |\n"
+            "| M4-v3     | 0.96 | 0.75 |\n"
+            "| M5        | 1.00 | 0.91 |\n"
+            "| M6 Haiku  | 1.00 | 1.00 |\n\n"
+            "The authoritative numbers are in per_model_metrics.csv "
+            "(downloadable below) since they're recomputed from "
+            "current scores.\n\n"
+            "**Per-trap analysis (Trap category).** Which specific "
+            "trap articles fooled which models. See "
+            "false_positive_analysis.csv for article-level detail. "
+            "Summary pattern: M3 and M4-v3 are most susceptible to "
+            "keyword traps (4–6 of 10 Traps scored > 0.5 on some "
+            "method); M1 and M6 reject nearly all.\n\n"
+            "**Files:**"
+        )
+        _dl("per_model_metrics.csv — AUC, precision, category accuracy",
+            "outputs/benchmark/v1/per_model_metrics.csv",
+            "revpipe_c4_metrics")
+        _dl("category_breakdown.csv — mean/median scores per category",
+            "outputs/benchmark/v1/category_breakdown.csv",
+            "revpipe_c4_catbreak")
+        _dl("false_positive_analysis.csv — per-trap analysis",
+            "outputs/benchmark/v1/false_positive_analysis.csv",
+            "revpipe_c4_fp")
+        _dl("raw_scores.csv — every model × every article × 7 dimensions",
+            "outputs/benchmark/v1/raw_scores.csv", "revpipe_c4_raw")
+        _dl("synthetic_benchmark_articles.csv — the 46 test articles",
+            "synthetic_benchmark_articles.csv", "revpipe_c4_articles")
+        _dl("synthetic_benchmark_answers.csv — ground truth labels",
+            "synthetic_benchmark_answers.csv", "revpipe_c4_answers")
+
+    st.divider()
+
+    # ── CONCERN 3 ──
+    st.header(
+        "Concern 3 — Discrete thresholds throw away information"
+    )
+
+    st.markdown(
+        "**Problem.** The pipeline converts each model's continuous "
+        "score into HIGH/LOW using a **per-model calibrated "
+        "threshold**. An article at 0.91 is treated the same as "
+        "0.51; 0.49 and 0.51 become opposites. Thresholds were "
+        "tuned empirically, not derived from principle.\n\n"
+        "**Meeting suggestion.** Use **continuous probabilities** "
+        "throughout. Plot **density and CDF** of each model's "
+        "decision scores on benchmark articles so the distribution "
+        "shape is visible.\n\n"
+        "**Reading the benchmark for decision-signal separation.** "
+        "The plot below shows each model's decision_p1 distribution "
+        "on articles that are high-decision by design "
+        "(Categories A + B, 20 articles) vs low-decision by design "
+        "(Categories C + D, 20 articles). Category E is excluded "
+        "(mid-by-design). A model whose green curve (high) sits "
+        "clearly to the right of its grey curve (low) separates "
+        "the decision signal cleanly."
+    )
+
+    _density = "outputs/benchmark/v1/plots/plot_density_decision.png"
+    if os.path.exists(_density):
+        st.image(
+            _density, use_column_width=True,
+            caption="Each panel shows one model's decision_p1 "
+                    "distribution. Green = articles high on decision "
+                    "by design (A+B). Grey = articles low on "
+                    "decision by design (C+D). Wider separation = "
+                    "stronger decision signal. Discrete models "
+                    "(M1, M2_old, M2_new) produce three spikes at "
+                    "canonical values regardless of class — no "
+                    "threshold recovers finer gradation.",
+        )
+    else:
+        st.warning(
+            "Density plot not found. Run "
+            "scripts/build_revised_pipeline_plots.py."
+        )
+
+    st.markdown(
+        "**Key finding.** Three models (M1 Sonnet, M2-old, M2-new) "
+        "produce outputs concentrated at three values "
+        "{0.05, 0.20, 0.80}. Their internal scoring is "
+        "architecturally discrete; no threshold setting can make "
+        "them continuous. The four continuous models (M3, M4-v3, "
+        "M5, M6) produce smooth distributions and separate the "
+        "decision signal to varying degrees — M5 and M6 show "
+        "cleaner separation than M3 and M4-v3.\n\n"
+        "Discrete output isn't automatically bad — discrete models "
+        "still participate in classification (see Concern 4's AUC "
+        "table in the fold). What they can't do is rank articles "
+        "by fine-grained relevance (see Concern 5)."
+    )
+
+    with st.expander("Technical details and reproducible files"):
+        st.markdown(
+            "**Per-method decision separation (continuous models "
+            "only).** The top-level plot shows the decision "
+            "dimension. For the method dimensions, here is the "
+            "parallel view: for each of the 6 methods, does each "
+            "continuous model separate articles labeled with that "
+            "method from articles not labeled with it?\n\n"
+            "Discrete models are excluded here because their outputs "
+            "lack the resolution for meaningful density. See the "
+            "top-level plot for how the discrete models behave on "
+            "the decision dimension."
+        )
+
+        _plot_per_method = "outputs/benchmark/v1/plots/plot_per_method.png"
+        if os.path.exists(_plot_per_method):
+            st.image(
+                _plot_per_method, use_column_width=True,
+                caption="Rows = methods. Columns = the 4 continuous "
+                        "models. Green = articles labeled with this "
+                        "method (expected HIGH). Grey = articles "
+                        "not labeled with this method (expected "
+                        "LOW). For small n (< 3 expected-high "
+                        "articles), rug lines replace density "
+                        "curves.",
+            )
+        else:
+            st.warning(
+                "Per-method plot not found at " + _plot_per_method + "."
+            )
+
+        st.markdown(
+            "**CDF version of the decision plot.** If you want CDFs "
+            "instead of densities, score_distributions.csv contains "
+            "per-article per-model decision scores; re-plot as ECDF "
+            "by category for the CDF view Dan asked about.\n\n"
+            "**Possible extraction of continuous scores from LLM "
+            "models.** M1 and M6 are LLM-based. Token-level "
+            "probabilities from the logprobs API could in principle "
+            "give continuous scores even from currently-discrete "
+            "models. Future work; requires modifying the scoring "
+            "pipeline to capture logprobs.\n\n"
+            "**Files:**"
+        )
+        _dl("score_distributions.csv — long-format score data",
+            "outputs/benchmark/v1/score_distributions.csv",
+            "revpipe_c3_scores")
+
+    st.divider()
+
+    # ── CONCERN 5 ──
+    st.header(
+        "Concern 5 — Different models' labels aren't directly comparable"
+    )
+
+    st.markdown(
+        "**Problem.** The pipeline applies a **different calibrated "
+        "threshold per model** — each model's HIGH/LOW cutoff was "
+        "tuned independently. \"M1 says HIGH\" and \"M3 says HIGH\" "
+        "mean different things at the score level; thresholds have "
+        "made the labels incomparable. A secondary issue is that "
+        "some models produce continuous probabilities while others "
+        "produce three discrete values (see Concern 3), compounding "
+        "the threshold problem.\n\n"
+        "**Meeting suggestion.** Each model produces a "
+        "**rank-ordering** of the same articles. Rank orders are "
+        "internal to each model, independent of where thresholds "
+        "sit, and comparable across output formats up to ties.\n\n"
+        "**Reading the benchmark for ranking agreement.** We rank "
+        "the 46 benchmark articles by decision_p1 for each of the "
+        "4 continuous models. Discrete models are excluded: their "
+        "3-valued outputs create massive ties that degrade rank "
+        "correlation.\n\n"
+        "Decision-dimension ranking is the simplest, cleanest "
+        "criterion — it uses the same score every model produces, "
+        "without any method choice or composite aggregation. The "
+        "pairwise Spearman correlation below measures how similarly "
+        "the models order the articles."
+    )
+
+    _heatmap = "outputs/benchmark/v1/plots/plot_ranking_agreement.png"
+    if os.path.exists(_heatmap):
+        st.image(
+            _heatmap, use_column_width=True,
+            caption="Pairwise Spearman rank correlation. 4 "
+                    "continuous models. Each cell: how similarly "
+                    "two models rank the 46 articles by "
+                    "decision_p1.",
+        )
+    else:
+        st.warning(
+            "Heatmap not found. Run "
+            "scripts/build_revised_pipeline_plots.py."
+        )
+
+    st.markdown(
+        "**Key finding.** Pairs whose cell is dark blue (high "
+        "Spearman) order articles similarly on the decision "
+        "dimension. Lighter cells mark pairs that see the decision "
+        "signal differently. See the fold for per-method ranking "
+        "agreement (6 heatmaps, one per method dimension).\n\n"
+        "No hardcoded numbers here — the heatmap shows the current "
+        "values."
+    )
+
+    with st.expander("Technical details and reproducible files"):
+        st.markdown(
+            "**Per-method ranking agreement.** The top-level "
+            "heatmap uses the decision dimension. Here are 6 more "
+            "heatmaps, one per method, showing how the 4 continuous "
+            "models rank articles by each method's score "
+            "separately. If two models agree strongly on the "
+            "decision dimension but disagree on a specific method, "
+            "they're capturing the decision signal commonly but "
+            "differ on that method's identification."
+        )
+
+        _ranking_pm = "outputs/benchmark/v1/plots/plot_per_method_ranking.png"
+        if os.path.exists(_ranking_pm):
+            st.image(
+                _ranking_pm, use_column_width=True,
+                caption="Per-method Spearman rank correlation among "
+                        "4 continuous models. Dark blue = agreement "
+                        "on that method's ranking.",
+            )
+        else:
+            st.warning(
+                "Per-method ranking plot not found at "
+                + _ranking_pm + "."
+            )
+
+        st.markdown(
+            "**Why discrete models are excluded.** M1, M2-old, "
+            "M2-new produce at most three distinct scores; their "
+            "rankings contain many ties, and Spearman degrades. "
+            "They participate in classification (Concern 4's AUC "
+            "table) but not in ranking.\n\n"
+            "**Why decision alone at top level, not a composite.** "
+            "Ranking by decision_p1 uses a single score every model "
+            "produces. It requires no aggregation choice. Composites "
+            "involving method scores are a second-order question — "
+            "whether models agree on a specific method — and that "
+            "question is answered by the per-method heatmaps "
+            "above.\n\n"
+            "**Kendall tau and top-K overlap.** Alternative "
+            "rank-agreement metrics in ranking_agreement.csv. "
+            "Kendall tau behaves similarly to Spearman. Top-K "
+            "overlap measures the raw number of articles that two "
+            "models share in their top-K by score.\n\n"
+            "**Files:**"
+        )
+        _dl("ranking_agreement.csv — Spearman, Kendall, top-K per pair",
+            "outputs/benchmark/v1/ranking_agreement.csv",
+            "revpipe_c5_ranking")
+
+    st.divider()
+
+    with st.expander("Full file index"):
+        st.markdown(
+            "All reproducible outputs available in the repository. "
+            "Download individual files via the per-concern folds "
+            "above, or browse the repo directly.\n\n"
+            "**Stage 0 — Benchmark** (`outputs/benchmark/v1/`)\n"
+            "- synthetic_benchmark_articles.csv, "
+            "synthetic_benchmark_answers.csv\n"
+            "- raw_scores.csv — every model × every article × "
+            "7 dimensions\n"
+            "- per_model_metrics.csv — AUC and per-category metrics\n"
+            "- category_breakdown.csv — per-category mean/median "
+            "scores\n"
+            "- false_positive_analysis.csv — per-trap analysis\n"
+            "- ranking_agreement.csv — Spearman, Kendall, top-K per "
+            "model pair\n"
+            "- score_distributions.csv — long-format per-article "
+            "per-model scores\n\n"
+            "**Stage 0 plots** (`outputs/benchmark/v1/plots/`)\n"
+            "- plot_density_decision.png — Concern 3 top-level\n"
+            "- plot_scatter_decision_method.png — Concern 4 "
+            "per-method calibration\n"
+            "- plot_ranking_agreement.png — Concern 5 Spearman "
+            "heatmap\n"
+            "- plot_per_method.png — Concern 3 fold per-method "
+            "density\n"
+            "- plot_per_method_ranking.png — Concern 5 fold "
+            "per-method rankings\n\n"
+            "**Stage A — Exclusion** (`outputs/stage_a/`)\n"
+            "- merged_all_articles.csv — 3,150 articles with "
+            "training flag\n"
+            "- survivors.csv — 1,937 after 9 exclusion rules\n"
+            "- excluded_G1_liveblog.csv through "
+            "excluded_G9_briefings.csv\n"
+            "- stage_a_audit.md — full audit\n\n"
+            "**Stage B — LDA** (`outputs/stage_b/v2/`)\n"
+            "- METHODOLOGY_v2.md — complete methodology and "
+            "decision log\n"
+            "- K_sweep/K_sweep_plots.png, K_sweep/sweep_results.csv, "
+            "K_sweep/K_decision.md\n"
+            "- vocab_sensitivity/grid_heatmap.png, "
+            "vocab_sensitivity/decision.md\n"
+            "- prior_sensitivity/alpha_eta_stability_heatmap.png, "
+            "prior_sensitivity/decision.md\n"
+            "- section_stratified/summary.md\n"
+            "- bertopic/alignment_analysis.md\n"
+            "- article_stability/article_stability_summary.md\n"
+            "- topic_profiles/INDEX.md, topic_profiles/topic_0.md "
+            "through topic_14.md\n"
+            "- plots/plot_topic_overlap.png (training overlap per "
+            "topic)\n"
+            "- plots/plot_article_stability.png (per-article "
+            "cluster stability)\n\n"
+            "**Stage C — Apply models** (pending)\n\n"
+            "**Stage D — Human review** (pending)\n\n"
+            "Repo: https://github.com/lynnzhao531/Guardian-Query"
+        )
+
+
 # ── Router ───────────────────────────────────────────────────────────────────
 
-if page == "About This Project":
+if page == "Revised Pipeline (After Meeting)":
+    render_revised_pipeline()
+elif page == "About This Project":
     page_about()
 elif page == "The Articles":
     page_articles()

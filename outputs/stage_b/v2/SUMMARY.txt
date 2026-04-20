@@ -1,0 +1,36 @@
+
+STAGE B V2 COMPLETE (runtime: 3:23:06)
+
+Objective: structural understanding (shifted from filtering)
+
+Corpus: 1,937 (608 training, 1,329 new)
+
+Preprocessing: variant P2 (from 5 tested)
+Vocab filter: min_df=5, max_df=0.5
+Priors: alpha=auto, eta=auto
+
+K values selected: [15, 5]
+  topic-word stability: see K_sweep/sweep_results.csv
+  article companion stability (median): 0.262
+
+Section-stratified: mean within-section stab = 0.306
+
+BERTopic triangulation: see bertopic/alignment_analysis.md
+
+Topics auto-flagged policy-adjacent: 6
+Topics auto-flagged content-adjacent: 9
+
+KEY FILES (outputs/stage_b/v2/):
+  METHODOLOGY_v2.md
+  01_v1_diagnostic.md
+  preprocessing/comparison.md
+  vocab_sensitivity/grid_heatmap.png
+  prior_sensitivity/alpha_eta_stability_heatmap.png
+  K_sweep/K_sweep_plots.png
+  section_stratified/summary.md
+  bertopic/alignment_analysis.md
+  article_stability/article_stability_summary.md
+  topic_profiles/INDEX.md
+  topic_profiles/topic_*.md (K cards)
+
+NEXT STEP FOR LYNN: review topic_profiles/INDEX.md
